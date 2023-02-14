@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width"/>
+  <meta name="description" content="A Tiny, Handy and Simple JS Framework"/>
+  <link rel="icon" href="favicon.ico"/>
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
+  <link rel="stylesheet" href="assets/override.css"/>
+  <title>Que.js</title>
+</head>
+<body>
+<div id="app">Loading...</div>
+<script>
+$docsify = {
+  coverpage: 'COVER.md',
+  homepage: 'https://cdn.jsdelivr.net/gh/seatwork/que.js@master/README.md',
+  repo: 'seatwork/que.js',
+  topMargin: 20,
+  plugins: [
+    function(hook) {
+      hook.afterEach(function(html) {
+        return html + '<hr/><footer>&copy;2019-2020, Developed and Maintained by <a href="https://github.com/seatwork">Seatwork</a></footer>'
+      })
+    }
+  ]
+}
+</script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.js"></script>
+</body>
+</html>
