@@ -1,6 +1,6 @@
 document.head.insertAdjacentHTML("beforeend", `
 <style>
-[class^="toast-"] {
+[class^="quick-"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -10,7 +10,7 @@ document.head.insertAdjacentHTML("beforeend", `
   user-select: none;
   line-height: normal;
 }
-.toast-mask {
+.quick-mask {
   position: fixed;
   z-index: 1000;
   left: 0;
@@ -19,7 +19,7 @@ document.head.insertAdjacentHTML("beforeend", `
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
 }
-.toast-transparent {
+.quick-transparent {
   position: absolute;
   z-index: 2000;
   left: 0;
@@ -27,14 +27,14 @@ document.head.insertAdjacentHTML("beforeend", `
   top: 0;
   bottom: 0;
 }
-.toast-input-target {
+.quick-input-target {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='lightgray' d='M10.9 3.2H5.1v1.6H3.9V3.2H1.2v3.2h13.6V3.2h-2.7v1.6h-1.2V3.2zM12.1 2H15a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h2.9V.4h1.2V2h5.8V.4h1.2V2zm2.7 5.6H1.2v7.2h13.6V7.6z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: top 49% right 15px;
   background-size: 16px;
 }
-.toast-dropdown-wrapper {
+.quick-dropdown-wrapper {
   position: absolute;
   z-index: 2001;
   color: #666;
@@ -43,33 +43,31 @@ document.head.insertAdjacentHTML("beforeend", `
   box-shadow: 0 0 16px rgb(0 0 0 / 8%);
   user-select: none;
 }
-.toast-dropdown-option {
+.quick-dropdown-option {
   padding: 5px 20px;
   cursor: pointer;
   transition: .3s all;
 }
-.toast-dropdown-option:hover, .toast-dropdown-option.selected {
+.quick-dropdown-option:hover, .quick-dropdown-option.selected {
   background: #eee;
 }
 </style>`);
 
-// const Toast = {};
-
-Toast.getElement = function(selector) {
+Quick.getElement = function (selector) {
   return typeof selector === 'string' ? document.querySelector(selector) : selector;
 }
 
-Toast.createElement = function(html) {
+Quick.createElement = function (html) {
   html = html.replace(/[\t\r\n]/mg, "").trim();
   const fragment = document.createRange().createContextualFragment(html);
   return fragment.firstChild;
 }
 
-Toast.removeElement = function(element) {
+Quick.removeElement = function (element) {
   element.parentNode && element.parentNode.removeChild(element);
 }
 
-Toast.bindElement = function(source, target) {
+Quick.bindElement = function (source, target) {
   const pos = target.getBoundingClientRect();
   source.style.position = 'absolute';
   source.style.top = pos.y + pos.height + 2 + 'px';
@@ -77,16 +75,16 @@ Toast.bindElement = function(source, target) {
 }
 
 /**
- * Toast Dropdown
- * @example new Toast.Dropdown('input');
+ * Quick Dropdown
+ * @example new Quick.Dropdown('input');
  */
-Toast.Dropdown = class {
+Quick.Dropdown = class {
 
   /** 构造函数 */
   constructor(target, options) {
-    this.$target = Toast.getElement(target);
+    this.$target = Quick.getElement(target);
     this.$target.readOnly = true;
-    this.$target.className = 'toast-input-target';
+    this.$target.className = 'quick-input-target';
 
     // 点击目标元素
     this.$target.addEventListener('click', () => {
@@ -94,18 +92,18 @@ Toast.Dropdown = class {
         this.close();
       } else {
         this.render(options);
-        Toast.bindElement(this.$wrapper, this.$target);
+        Quick.bindElement(this.$wrapper, this.$target);
       }
     });
   }
 
   /** 组件UI渲染 */
   render(options) {
-    this.$mask = Toast.createElement('<div class="toast-transparent"></div>');
+    this.$mask = Quick.createElement('<div class="quick-transparent"></div>');
     this.$mask.addEventListener('click', e => this.close());
     document.body.appendChild(this.$mask);
 
-    this.$wrapper = Toast.createElement('<div class="toast-dropdown-wrapper"></div>');
+    this.$wrapper = Quick.createElement('<div class="quick-dropdown-wrapper"></div>');
     this.$wrapper.innerHTML = this.createHtml(options);
     this.bindEvents();
     document.body.appendChild(this.$wrapper);
@@ -117,7 +115,7 @@ Toast.Dropdown = class {
   createHtml(options) {
     let html = '';
     for (const opt of options) {
-      html += `<div class="toast-dropdown-option ${opt.selected?'selected':''}">${opt.desc}</div>`;
+      html += `<div class="quick-dropdown-option ${opt.selected ? 'selected' : ''}">${opt.desc}</div>`;
     }
     return html;
   }
@@ -134,8 +132,8 @@ Toast.Dropdown = class {
   }
 
   close() {
-    Toast.removeElement(this.$mask);
-    Toast.removeElement(this.$wrapper);
+    Quick.removeElement(this.$mask);
+    Quick.removeElement(this.$wrapper);
     this.isOpen = false;
   }
 }

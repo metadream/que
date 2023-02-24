@@ -1,4 +1,5 @@
 # Heatmap Calendar
+
 A super lightweight library for heatmap calendar.
 
 ```js
@@ -6,87 +7,108 @@ const heatmap = new Heatmap({
   data: {
     "2019/10/10": {
       "url": "https://github.com",
-      "title": "example"
-    }
+      "title": "example",
+    },
   },
   lang: {
-    months: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
-    days: ["日", "一", "二", "三", "四", "五", "六"]
+    months: [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月",
+    ],
+    days: ["日", "一", "二", "三", "四", "五", "六"],
   },
   lattice: {
     size: 12,
     spacing: 3,
-    color: '#ddd',
-    highlightColor: '#cd4230'
-  }
-})
+    color: "#ddd",
+    highlightColor: "#cd4230",
+  },
+});
 
-el.innerHTML = heatmap.toSVG()
+el.innerHTML = heatmap.toSVG();
 ```
 
-# Toast UI Framework
-A lightweight UI framework for toast componets.
+# Quick UI Framework
+
+A lightweight UI framework for quick componets.
 
 ## Installation
+
 ```
-<script src="toast.js"></script>
+<script src="quick.js"></script>
 ```
 
 ## Simple Usage
 
 - **Tooltip**
+
 ```html
-<div toast-tooltip="hello world"></div>
+<div quick-tooltip="hello world"></div>
 ```
 
 - **Loading**
+
 ```js
-Toast.loading.start()
+Quick.loading.start();
 setTimeout(() => {
-  Toast.loading.done();
+  Quick.loading.done();
 }, 3000);
 ```
 
 - **Progess**
+
 ```js
-Toast.progress.start();
+Quick.progress.start();
 setTimeout(() => {
-  Toast.progress.done();
+  Quick.progress.done();
 }, 3000);
 ```
 
 - **Message**
+
 ```js
-Toast.info("hello world");
-Toast.success("hello world");
-Toast.error("hello world");
+Quick.info("hello world");
+Quick.success("hello world");
+Quick.error("hello world");
 ```
 
 - **Dialog**
-```js
-Toast.alert("hello world");
 
-Toast.confirm("hello world?", () => {
+```js
+Quick.alert("hello world");
+
+Quick.confirm("hello world?", () => {
   console.log("OK");
 });
 
-const dialog = Toast.dialog({
+const dialog = Quick.dialog({
   content: "hello world",
   buttons: [{
     label: "OK",
     type: "primary",
-    onclick: () => alert("OK")
+    onclick: () => alert("OK"),
   }, {
     label: "Cancel",
-    onclick: () => alert("Cancel")
-  }]
+    onclick: () => alert("Cancel"),
+  }],
 });
 dialog.hide();
 ```
 
 - **Action Sheet**
+
 ```js
-const sheet = Toast.actionSheet([
+const sheet = Quick.actionSheet([
   { label: "Menu One", onclick: () => alert(1) },
   { label: "Menu Two", onclick: () => alert(2) },
   { label: "Menu Three", onclick: () => alert(3) },
@@ -95,13 +117,15 @@ sheet.hide();
 ```
 
 - **Sliding Page**
+
 ```js
-const page = Toast.slidingPage(document.querySelector("#container-id"));
+const page = Quick.slidingPage(document.querySelector("#container-id"));
 page.show();
 page.hide();
 ```
 
 # Waterfall Layout
+
 A super lightweight library for waterfall layout.
 
 ## Usage
@@ -122,9 +146,9 @@ A super lightweight library for waterfall layout.
 ```
 
 ```js
-const waterfall = new Waterfall('.grid')
-waterfall.render()
-window.onresize = () => waterfall.render()
+const waterfall = new Waterfall(".grid");
+waterfall.render();
+window.onresize = () => waterfall.render();
 ```
 
 Or add items dynamically:
@@ -134,15 +158,16 @@ Or add items dynamically:
 ```
 
 ```js
-const waterfall = new Waterfall('.grid')
-window.onresize = () => waterfall.render()
+const waterfall = new Waterfall(".grid");
+window.onresize = () => waterfall.render();
 for (let i = 0; i < 10; i++) {
-  const div = document.createElement('div')
-  document.body.appendChild(div)
-  waterfall.add(div)
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  waterfall.add(div);
 }
 ```
 
 ## Precautions
 
-If the item contains an image, you may need to call `render` function again when image loaded.
+If the item contains an image, you may need to call `render` function again when
+image loaded.

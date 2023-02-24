@@ -3,35 +3,35 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
-  <script src="../toast.js"></script>
+  <script src="../quick.js"></script>
   <script src="../dropdown.js"></script>
-  <title>Toast Test</title>
+  <title>Quick Test</title>
 </head>
 <body style="background-color: gray;">
 
 <br/>
-<button onclick="Toast.loading.start()">Loading Start</button>
-<button onclick="Toast.loading.done()">Loading Done</button>
+<button onclick="Quick.loading.start()">Loading Start</button>
+<button onclick="Quick.loading.done()">Loading Done</button>
 
 <br/><br/>
 <button onclick="testProgressStart()">Progress Start</button>
-<button onclick="Toast.progress.done()">Progress Done</button>
+<button onclick="Quick.progress.done()">Progress Done</button>
 <button onclick="testProgressTick()">Progress Tick</button>
 
 <br/><br/>
 <button onclick="testDialog()">Dialog</button>
-<button onclick="Toast.alert('这是一个警告')">Alert</button>
+<button onclick="Quick.alert('这是一个警告')">Alert</button>
 <button onclick="testConfirm()">Confirm</button>
 
 <br/><br/>
-<button onclick="Toast.info('This is an normal information')">Info</button>
-<button onclick="Toast.success('This is an success information')">Success</button>
-<button onclick="Toast.error('This is an error information')">Error</button>
+<button onclick="Quick.info('This is an normal information')">Info</button>
+<button onclick="Quick.success('This is an success information')">Success</button>
+<button onclick="Quick.error('This is an error information')">Error</button>
 
 <br/><br/>
 <button onclick="testActionSheet()">Action Sheet</button>
-<button toast-tooltip="JFK老师的就立刻范德萨">Tooltip</button>
-<button toast-tooltip="JFK老师的就立刻范德萨JFK老师的就立刻范德萨JFK老师的就立刻范德萨">Tooltip2</button>
+<button quick-tooltip="JFK老师的就立刻范德萨">Tooltip</button>
+<button quick-tooltip="JFK老师的就立刻范德萨JFK老师的就立刻范德萨JFK老师的就立刻范德萨">Tooltip2</button>
 
 <br/><br/>
 <button onclick="page.show()">Sliding Page</button>
@@ -46,11 +46,11 @@
 <input type="text" name="state"/>
 
 <script>
-Toast.lang.YES = "是";
-Toast.lang.NO = "否";
-const page = Toast.slidingPage(document.querySelector("#page"));
+Quick.lang.YES = "是";
+Quick.lang.NO = "否";
+const page = Quick.slidingPage(document.querySelector("#page"));
 
-new Toast.Dropdown('[name="state"]', [
+new Quick.Dropdown('[name="state"]', [
 { value: 'aaa', desc: '啊啊啊', selected: false },
 { value: 'bbb', desc: '并不并', selected: false },
 { value: 'ccc', desc: '从此此', selected: true },
@@ -60,20 +60,20 @@ new Toast.Dropdown('[name="state"]', [
 let timer;
 function testProgressStart() {
   if (timer) clearTimeout(timer);
-  Toast.progress.start();
-  timer = setTimeout(() => Toast.progress.done(), 3000);
+  Quick.progress.start();
+  timer = setTimeout(() => Quick.progress.done(), 3000);
 }
 
 let p = 0;
 function testProgressTick() {
-  Toast.progress.start(false);
+  Quick.progress.start(false);
   if (p > 100) p = 0;
   p += 10;
-  Toast.progress.tick(p);
+  Quick.progress.tick(p);
 }
 
 function testDialog() {
-  Toast.dialog({
+  Quick.dialog({
     title: "标题",
     html: '<div style="max-width:560px">这是一段文字</div>',
     buttons: [{
@@ -87,13 +87,13 @@ function testDialog() {
 }
 
 function testConfirm() {
-  Toast.confirm("请问你喜欢运动吗？", function() {
+  Quick.confirm("请问你喜欢运动吗？", function() {
     alert("true");
   })
 }
 
 function testActionSheet() {
-  Toast.actionSheet([
+  Quick.actionSheet([
     { label: 'Menu One' },
     { label: 'Menu Two', onclick: () => alert(2) },
     { label: 'Menu Three', onclick: () => alert(3) },
