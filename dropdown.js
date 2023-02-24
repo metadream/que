@@ -100,7 +100,7 @@ Quick.Dropdown = class {
   /** 组件UI渲染 */
   render(options) {
     this.$mask = Quick.createElement('<div class="quick-transparent"></div>');
-    this.$mask.addEventListener('click', e => this.close());
+    this.$mask.addEventListener('click', () => this.close());
     document.body.appendChild(this.$mask);
 
     this.$wrapper = Quick.createElement('<div class="quick-dropdown-wrapper"></div>');
