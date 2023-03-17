@@ -1184,7 +1184,7 @@ Quick.Attachment = class {
     }
     for (const file of files) {
       if (file.size > this.maxSize * 1024 * 1024)
-        return Quick.error('单个附件大小不能超过' + this.maxSize + 'MB');
+        return Quick.error('请将附件大小控制在' + this.maxSize + 'MB以内，确实无法精简时可以（但不推荐）采用分卷压缩方式上传');
     }
     const fd = new FormData();
     for (const file of files) {
