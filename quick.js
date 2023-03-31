@@ -122,7 +122,8 @@ button:disabled {
 }
 .quick-dialog-body {
   flex: 1;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 25px;
 }
 .quick-dialog-footer {
