@@ -106,14 +106,14 @@ button:disabled {
   align-items: center;
 }
 .quick-dialog-panel {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   max-width: 80%;
   max-height: 80%;
   min-width: 280px;
   border-radius: 5px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
 .quick-dialog-header {
   font-weight: 700;
@@ -128,22 +128,25 @@ button:disabled {
 }
 .quick-dialog-footer {
   display: flex;
-  text-align: center;
-  border-top: #f3f3f3 1px solid;
 }
 .quick-dialog-button {
   flex: 1;
-  cursor: pointer;
-  line-height: 48px;
-  font-weight: 700;
+  height: 48px;
   color: #999;
-  border-left: #f3f3f3 1px solid;
+  background: #fff;
+  border: transparent 1px solid;
+  border-top-color: #f3f3f3;
+  border-radius: 0;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-.quick-dialog-button:first-child {
-  border: 0;
+.quick-dialog-button:not(:first-child) {
+  border-left-color: #f3f3f3;
 }
-.quick-dialog-button:active {
+.quick-dialog-button:hover {
+  opacity: initial !important;
+}
+.quick-dialog-button:active, .quick-dialog-button:disabled {
+  opacity: initial !important;
   background: #eee;
 }
 .quick-dialog-button.primary {
@@ -683,11 +686,10 @@ Quick.dialog = function(options = {}) {
     const $footer = $(`<div class="quick-dialog-footer"></div>`);
     panel.appendChild($footer);
     options.buttons.forEach(item => {
-      const button = $(`<div class="quick-dialog-button ${item.type || ""}">${item.label}</div>`);
+      const button = $(`<button class="quick-dialog-button ${item.type || ""}">${item.label}</button>`);
       $footer.append(button);
       button.on('click', () => {
-        if (item.onclick) item.onclick($instance);
-        else $instance.hide();
+        item.onclick ? item.onclick($instance, button) : $instance.hide()
       })
     })
   }
@@ -723,8 +725,7 @@ Quick.alert = function(message, callback) {
       type: 'primary',
       label: Quick.LANGUAGE.OK,
       onclick: function(dialog) {
-        if (callback) callback(dialog);
-        else dialog.hide();
+        callback ? callback(dialog) : dialog.hide();
       }
     }]
   });
@@ -745,9 +746,8 @@ Quick.confirm = function(message, callback) {
     }, {
       type: 'primary',
       label: Quick.LANGUAGE.YES,
-      onclick: (dialog) => {
-        dialog.hide();
-        callback && callback();
+      onclick: (dialog, button) => {
+        callback ? callback(dialog, button) : dialog.hide();
       }
     }]
   });
