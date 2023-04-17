@@ -1207,14 +1207,18 @@ Quick.Attachment = class {
     const $item = e.target.parentNode;
     const data = Quick.form.getJsonObject($item);
 
-    Quick.confirm('确定删除该附件吗？', () => {
+    Quick.confirm('确定删除该附件吗？', (confirm, button) => {
       if (data.state == 1) {
+        confirm.hide();
         $item.querySelector('[name="state"]').value = -1;
         $item.style.display = 'none';
         return;
       }
+      button.disable();
       Quick.http.del(Quick.ATTACHMENT_API, data).then(res => {
+        button.enable();
         if (res) {
+          confirm.hide();
           Quick.success('删除成功');
           $item.remove();
         }
