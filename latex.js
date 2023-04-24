@@ -4,7 +4,7 @@
  * <script src="https://cdn.jsdelivr.net/gh/ronkok/Temml@0.10.11/dist/temml.min.js"></script>
  * <la-tex>E=mc^2</la-tex>
  */
-customElements.define('la-tex', class FormulaElement extends HTMLElement {
+customElements.define('la-tex', class LaTexElement extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
