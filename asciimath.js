@@ -1,6 +1,11 @@
 /**
- * ASCIIMathML Simplification
- * Based on http://asciimath.org
+ * ASCIIMathML Refactoring
+ * @link: http://asciimath.org
+ * @Example
+ * <p>`E=mc^2`</p>
+ * <p>`f(t)=(a_0)/2 + sum_(n=1)^ooa_ncos((npit)/L)+sum_(n=1)^oo b_nsin((npit)/L)`</p>
+ * <p>`\oint_C \vec{B}\circ \d\vec{l} = \mu_0 (I_{enc} + \varepsilon_0 \frac{\d}{\d t} \int_S \vec{E} \circ \hat{n} \d a)`</p>
+ * <p display="block">`SO_{4}^{2-}`</p>
  */
 
 let nestingDepth, previousSymbol, currentSymbol, inputSymbolNames = [];
@@ -38,7 +43,8 @@ function translate() {
 
 function processNode(n) {
   if (n.childNodes.length == 0) {
-    if (n.nodeType != 8 && n.parentNode.nodeName != "FORM" && n.parentNode.nodeName != "TEXTAREA") {
+    const parentNode = n.parentNode;
+    if (n.nodeType != 8 && parentNode.nodeName != "FORM" && parentNode.nodeName != "TEXTAREA") {
       let str = n.nodeValue, mtch = false;
       if (str) {
         str = str.replace(/\r\n\r\n/g, "\n\n").replace(/\x20+/g, " ").replace(/\s*\r\n/g, " ");
@@ -46,7 +52,8 @@ function processNode(n) {
 
         const arr = str.split(AM_DELIMITER);
         if (arr.length > 1 || mtch) {
-          n.parentNode.replaceChild(createFragment(arr), n);
+          const display = parentNode.getAttribute("display");
+          parentNode.replaceChild(createFragment(arr, display), n);
         }
       }
     }
@@ -56,13 +63,13 @@ function processNode(n) {
   }
 }
 
-function createFragment(arr) {
+function createFragment(arr, display) {
   const newFrag = document.createDocumentFragment();
   let expr = false;
 
   for (let i = 0; i < arr.length; i++) {
     if (expr) {
-      newFrag.appendChild(parseMath(arr[i]));
+      newFrag.appendChild(parseMath(arr[i], display));
     } else {
       const arri = [arr[i]];
       newFrag.appendChild(document.createElement("span").appendChild(document.createTextNode(arri[0])));
@@ -77,12 +84,13 @@ function createFragment(arr) {
   return newFrag;
 }
 
-function parseMath(expr) {
+function parseMath(expr, display) {
   expr = expr.replace(/&nbsp;/g, "").replace(/&gt;/g, ">").replace(/&lt;/g, "<");
   const frag = parseExpr(expr.replace(/^\s+/g, ""))[0];
-  const node = createMathElement("math", frag);
-  node.setAttribute("title", expr.replace(/\s+/g, " "));
-  return node;
+  const root = createMathElement("math", frag);
+  root.setAttribute("title", expr.replace(/\s+/g, " "));
+  if (display) root.setAttribute("display", display);
+  return root;
 }
 
 function parseExpr(str) {
