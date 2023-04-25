@@ -2,6 +2,7 @@
  * ASCIIMathML Refactoring
  * @link: http://asciimath.org
  * @Example
+ * <p>`"Asciimath Examples"`</p>
  * <p>`E=mc^2`</p>
  * <p>`f(t)=(a_0)/2 + sum_(n=1)^ooa_ncos((npit)/L)+sum_(n=1)^oo b_nsin((npit)/L)`</p>
  * <p>`\oint_C \vec{B}\circ \d\vec{l} = \mu_0 (I_{enc} + \varepsilon_0 \frac{\d}{\d t} \int_S \vec{E} \circ \hat{n} \d a)`</p>
