@@ -1,6 +1,9 @@
 /**
- * ASCIIMathML Refactoring
- * @link: http://asciimath.org
+ * Modified from ASCIIMathML (http://asciimath.org)
+ * 1. Remove browser compatibility checks
+ * 2. Adjust and refine the code structure
+ * 3. Fixed the mathvariant not working issue
+ *
  * @Example
  * <p>`"Asciimath Examples"`</p>
  * <p>`E=mc^2`</p>
@@ -390,7 +393,12 @@ function parseSexpr(str) { //parses str and returns [node,tailstr]
                 result[0].childNodes[i]);
             }
         }
-        node = createMathElement(symbol.tag, result[0]);
+
+        if (result[0].nodeName == "#text") {
+          node = createMathElement(symbol.tag, result[0]);
+        } else {
+          node = result[0];
+        }
         node.setAttribute(symbol.atname, symbol.atval);
         return [node, result[1]];
       }
@@ -843,16 +851,9 @@ const AM_SYMBOLS = [
   { input: "class", tag: "mrow", ttype: BINARY },
   { input: "cancel", tag: "menclose", output: "cancel", tex: null, ttype: UNARY },
   AM_QUOTE,
-  { input: "bb", tag: "mstyle", atname: "mathvariant", atval: "bold", output: "bb", tex: null, ttype: UNARY },
-  { input: "mathbf", tag: "mstyle", atname: "mathvariant", atval: "bold", output: "mathbf", tex: null, ttype: UNARY },
-  { input: "sf", tag: "mstyle", atname: "mathvariant", atval: "sans-serif", output: "sf", tex: null, ttype: UNARY },
-  { input: "mathsf", tag: "mstyle", atname: "mathvariant", atval: "sans-serif", output: "mathsf", tex: null, ttype: UNARY },
-  { input: "bbb", tag: "mstyle", atname: "mathvariant", atval: "double-struck", output: "bbb", tex: null, ttype: UNARY, codes: AM_BBB },
-  { input: "mathbb", tag: "mstyle", atname: "mathvariant", atval: "double-struck", output: "mathbb", tex: null, ttype: UNARY, codes: AM_BBB },
-  { input: "cc", tag: "mstyle", atname: "mathvariant", atval: "script", output: "cc", tex: null, ttype: UNARY, codes: AM_CAL },
-  { input: "mathcal", tag: "mstyle", atname: "mathvariant", atval: "script", output: "mathcal", tex: null, ttype: UNARY, codes: AM_CAL },
-  { input: "tt", tag: "mstyle", atname: "mathvariant", atval: "monospace", output: "tt", tex: null, ttype: UNARY },
-  { input: "mathtt", tag: "mstyle", atname: "mathvariant", atval: "monospace", output: "mathtt", tex: null, ttype: UNARY },
-  { input: "fr", tag: "mstyle", atname: "mathvariant", atval: "fraktur", output: "fr", tex: null, ttype: UNARY, codes: AM_FRK },
-  { input: "mathfrak", tag: "mstyle", atname: "mathvariant", atval: "fraktur", output: "mathfrak", tex: null, ttype: UNARY, codes: AM_FRK }
+  { input: "normal", tag: "mi", atname: "mathvariant", atval: "normal", output: "normal", tex: null, ttype: UNARY },
+  { input: "bold", tag: "mi", atname: "mathvariant", atval: "bold", output: "bold", tex: null, ttype: UNARY },
+  { input: "struck", tag: "mi", atname: "mathvariant", atval: "double-struck", output: "struck", tex: null, ttype: UNARY, codes: AM_BBB },
+  { input: "script", tag: "mi", atname: "mathvariant", atval: "script", output: "script", tex: null, ttype: UNARY, codes: AM_CAL },
+  { input: "fraktur", tag: "mi", atname: "mathvariant", atval: "fraktur", output: "fraktur", tex: null, ttype: UNARY, codes: AM_FRK },
 ];
