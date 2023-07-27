@@ -180,6 +180,45 @@ button:disabled {
   margin-top: 10px;
   color: #ce2f33;
 }
+.quick-attachment {
+  display: flex;
+}
+.quick-attachment input[type="file"] {
+  display: none;
+}
+.quick-attachment>:first-child {
+  margin-right: 10px;
+}
+.quick-attachment .file-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.quick-attachment .file-list>:not(.loading) {
+  background: #eee;
+  margin: 3px;
+  padding: 2px 8px;
+  border-radius: var(--border-radius);
+  width: fit-content;
+}
+.quick-attachment .entry {
+  display: flex;
+  align-items: center;
+}
+.quick-attachment .entry>:first-child {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.quick-attachment .icon {
+  display: block;
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  text-decoration: none;
+  margin-left: 5px;
+}
 [quick-tooltip] {
   position: relative;
 }
@@ -368,9 +407,9 @@ button:disabled {
 // --------------------------------------------------------
 // 命名空间
 // --------------------------------------------------------
-const Quick = {};
+const Quick = { _uuid: 0 };
 Quick.LANGUAGE = { OK: '确定', YES: '确定', NO: '取消' };
-Quick.ATTACHMENT_API = '/attachment';
+Quick.uuid = () => 'q-u-i-c-k-' + ++Quick._uuid;
 
 // --------------------------------------------------------
 // DOM原型扩展及快捷操作
@@ -1121,114 +1160,113 @@ Quick.FlexTable = class {
 }
 
 // --------------------------------------------------------
-// UI扩展：附件上传下载
+// UI扩展：附件组件
 // --------------------------------------------------------
 
 /**
- * 附件上传下载
- * @param selector {string|Element} 放置位置
- * @param list {Array} 附件列表数据
- * @param options { maxSize, mimeTypes } 配置项
- * - maxSize {number} 最大允许体积（MB）
- * - mimeTypes {string} 可接受的附件类型
+ * 附件组件
+ * @param container {string|Element} 放置位置
+ * @param attachments {Array} 附件列表数据
+ * - id, originalName, previewUrl, downloadUrl, file
+ * @param options {Object} 配置项
+ * - accept {string} 可接受的附件类型
+ * - maxSize {number} 最大允许体积（默认10MB）
+ * - maxCount {number} 最大允许数量（默认10）
+ * - onRemove {AsyncFunction} 删除附件回调（仅当file属性不存在时使用）
  */
 Quick.Attachment = class {
 
-  constructor(selector, list, options) {
-    this.editable = !!options; // 带 options 参数说明是可编辑的
-    this.$target = $(selector);
-    this.$wrapper = $(`<div class="attachment"></div>`);
-    this.$target.appendChild(this.$wrapper);
+  constructor(container, attachments, options) {
+    this.attachments = [];
+    this.options = options;
+    this.editable = !!options;
+    this.$wrapper = $(`<div class="quick-attachment"></div>`);
+    $(container).appendChild(this.$wrapper);
 
     if (this.editable) {
-      const mimeTypes = options.mimeTypes || '*.*';
+      const accept = options.accept || '*.*';
+      const multiple = options.maxCount > 1 ? 'multiple' : '';
       this.maxSize = options.maxSize || 10;
+      this.maxCount = options.maxCount || 10;
+      this.onRemove = options.onRemove || async function() {};
 
-      this.$wrapper.appendChild($(`<div><input type="file" accept="${mimeTypes}" multiple/><a>上传附件</a></div>`));
-      const $inputFile = this.$wrapper.querySelector('input[type="file"]');
-      $inputFile.on('change', e => this.upload(e))
-      const $button = this.$wrapper.querySelector('input[type="file"]+a');
-      $button.on('click', () => $inputFile.click())
+      this.$wrapper.appendChild($(`<div><input type="file" accept="${accept}" ${multiple}/><a>上传附件</a></div>`));
+      this.$filer = this.$wrapper.querySelector('input[type="file"]');
+      const $trigger = this.$wrapper.querySelector('input[type="file"]+a');
+      $trigger.on('click', () => this.$filer.click());
+      this.$filer.on('change', e => this.validate(e.target.files));
     }
 
     this.$fileList = $(`<div class="file-list"></div>`);
     this.$wrapper.appendChild(this.$fileList);
-    this.build(list);
-  }
-
-  build(list) {
-    list = list || [];
-    for (const attachment of list) {
-      const dlUrl = attachment.filePath.replace(/^\/attachment\//, '/download/');
-      const $icon = this.editable ? '<img class="icon cross" src="/images/cross.png" title="删除"/>' : '';
-      const $item = $(`<div class="item">
-        <a target="_blank" href="${attachment.filePath}">${attachment.originalName}</a>
-        <a href="${dlUrl}" download="${attachment.originalName}"><img class="icon" src="/images/down.png" title="下载"/></a>
-        ${$icon}
-        <input type="hidden" name="attachmentId" value="${attachment.attachmentId}"/>
-        <input type="hidden" name="filePath" value="${attachment.filePath}"/>
-        <input type="hidden" name="originalName" value="${attachment.originalName}"/>
-        <input type="hidden" name="state" value="${attachment.state.code}"/>
-      </div>`);
-
-      const $cross = $item.querySelector('img.cross');
-      if ($cross) $cross.on('click', e => this.delete(e));
-      this.$fileList.appendChild($item);
+    for (const entry of attachments) {
+        entry.id = Quick.uuid();
+        this.add(entry);
     }
   }
 
-  upload(e) {
-    const files = e.target.files;
+  validate(files) {
     if (!files || files.length === 0) return;
-    if (files.length > 9) {
-      return Quick.error('一次最多上传9个附件');
+    if (files.length > this.maxCount) {
+      return Quick.error(`一次最多允许上传 ${this.maxCount} 个文件`);
     }
     for (const file of files) {
-      if (file.size > this.maxSize * 1024 * 1024)
-        return Quick.error('请将附件大小控制在' + this.maxSize + 'MB以内，确实无法精简时可以（但不推荐）采用分卷压缩方式上传');
-    }
-    const fd = new FormData();
-    for (const file of files) {
-      fd.append('files', file);
-    }
-
-    const $loading = $('<div class="loading"></div>');
-    this.$fileList.appendChild($loading);
-    Quick.http.post(Quick.ATTACHMENT_API, fd).then(list => {
-      $loading.remove();
-      if (list) {
-        Quick.success('上传成功');
-        this.build(list);
+      if (file.size > this.maxSize * 1024 * 1024) {
+        return Quick.error('单文件大小不允许超过 ' + this.maxSize + 'MB');
       }
-    });
+    }
+    for (const file of files) {
+      const tempUrl = URL.createObjectURL(file);
+      this.add({
+        id: Quick.uuid(),
+        originalName: file.name,
+        previewUrl: tempUrl,
+        downloadUrl: tempUrl,
+        file
+      });
+    }
   }
 
-  delete(e) {
-    const $item = e.target.parentNode;
-    const data = Quick.form.getJsonObject($item);
+  add(entry) {
+    const $removeIcon = this.editable ? '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon" id="remove-icon"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.421c-240.736 0-436.579 195.843-436.579 436.579 0 240.699 195.843 436.579 436.579 436.579 240.699 0 436.579-195.879 436.579-436.579 0-240.736-195.879-436.579-436.579-436.579zM563.264 513.566l157.433-155.721c14.308-14.127 14.418-37.173 0.291-51.483-14.127-14.308-37.21-14.418-51.483-0.291l-157.65 155.903-155.248-155.721c-14.236-14.236-37.246-14.308-51.483-0.073-14.236 14.199-14.272 37.246-0.073 51.483l155.029 155.502-156.303 154.628c-14.308 14.163-14.418 37.173-0.291 51.483 7.136 7.209 16.493 10.814 25.887 10.814 9.248 0 18.496-3.532 25.596-10.523l156.522-154.811 157.796 158.306c7.1 7.136 16.42 10.704 25.777 10.704 9.321 0 18.605-3.568 25.705-10.631 14.236-14.199 14.272-37.21 0.073-51.483l-157.578-158.087z" fill="#e6348d"></path></svg>' : '';
+    const $entry = $(`<div class="entry" id="${entry.id}">
+      <a target="_blank" href="${entry.previewUrl}">${entry.originalName}</a>
+      <a href="${entry.downloadUrl}" download="${entry.originalName}">
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.093c-240.917 0-436.907 195.989-436.907 436.907s195.989 436.907 436.907 436.907c240.917 0 436.907-195.989 436.907-436.907 0-240.917-195.989-436.907-436.907-436.907zM719.713 523.541c-14.272-14.346-37.974-14.382-52.283-0.073l-119.021 118.22v-348.907c0-20.207-16.165-36.591-36.409-36.591-20.207 0-36.409 16.384-36.409 36.591v350.8l-119.712-121.388c-14.199-14.346-37.21-14.491-51.555-0.291-14.382 14.236-14.418 37.428-0.219 51.774l181.316 183.246c7.136 7.209 16.603 10.886 26.032 10.886 9.284 0 18.641-3.604 25.741-10.595 0.036-0.073 0.036-0.073 0.073-0.146 0.036 0 0.073 0 0.109-0.073l182.262-181.68c14.308-14.272 14.346-37.465 0.073-51.774z" fill="#0a79ce"></path></svg>
+      </a>${$removeIcon}</div>`);
 
-    Quick.confirm('确定删除该附件吗？', (confirm, button) => {
-      if (data.state == 1) {
-        confirm.hide();
-        $item.querySelector('[name="state"]').value = -1;
-        $item.style.display = 'none';
-        return;
-      }
-      button.disable();
-      Quick.http.del(Quick.ATTACHMENT_API, data).then(res => {
+    const $removeBtn = $entry.querySelector('#remove-icon');
+    if ($removeBtn) $removeBtn.on('click', () => this.remove(entry));
+    this.$fileList.appendChild($entry);
+    this.attachments.push(entry);
+  }
+
+  remove(entry) {
+    Quick.confirm('确定删除该附件吗？', async (confirm, button) => {
+      if (!entry.file && this.options.onRemove) {
+        button.disable();
+        await this.options.onRemove(entry);
         button.enable();
-        if (res) {
-          confirm.hide();
-          Quick.success('删除成功');
-          $item.remove();
-        }
-      })
+        Quick.success('删除成功');
+      }
+      confirm.hide();
+      const $entry = $('#' + entry.id);
+      $entry.remove();
+      const index = this.attachments.findIndex(v => v.id == entry.id);
+      this.attachments.splice(index, 1);
     });
   }
 
-  list() {
-    const $items = this.$wrapper.querySelectorAll('.file-list div');
-    return Quick.form.getJsonArray($items);
+  getFiles() {
+    const files = [];
+    for (const entry of this.attachments) {
+        if (entry.file) files.push(entry.file);
+    }
+    return files;
+  }
+
+  getAttachments() {
+    return this.attachments;
   }
 }
 
