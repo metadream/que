@@ -1185,7 +1185,7 @@ Quick.FlexTable = class {
  * 附件组件
  * @param container {string|Element} 放置位置
  * @param attachments {Array} 附件列表数据
- * - id, originalName, previewUrl, downloadUrl, file
+ * - __id, originalName, previewUrl, downloadUrl, file
  * @param options {Object} 配置项
  * - accept {string} 可接受的附件类型
  * - maxSize {number} 最大允许体积（默认10MB）
@@ -1218,7 +1218,7 @@ Quick.Attachment = class {
     this.$fileList = Quick.query(`<div class="file-list"></div>`);
     this.$wrapper.append(this.$fileList);
     for (const entry of attachments) {
-      entry.id = Quick.uuid();
+      entry.__id = Quick.uuid();
       this.add(entry);
     }
   }
@@ -1236,7 +1236,7 @@ Quick.Attachment = class {
     for (const file of files) {
       const tempUrl = URL.createObjectURL(file);
       this.add({
-        id: Quick.uuid(),
+        __id: Quick.uuid(),
         originalName: file.name,
         previewUrl: tempUrl,
         downloadUrl: tempUrl,
@@ -1247,7 +1247,7 @@ Quick.Attachment = class {
 
   add(entry) {
     const $removeIcon = this.editable ? '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon" id="remove-icon" style="margin-left:3px"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.421c-240.736 0-436.579 195.843-436.579 436.579 0 240.699 195.843 436.579 436.579 436.579 240.699 0 436.579-195.879 436.579-436.579 0-240.736-195.879-436.579-436.579-436.579zM563.264 513.566l157.433-155.721c14.308-14.127 14.418-37.173 0.291-51.483-14.127-14.308-37.21-14.418-51.483-0.291l-157.65 155.903-155.248-155.721c-14.236-14.236-37.246-14.308-51.483-0.073-14.236 14.199-14.272 37.246-0.073 51.483l155.029 155.502-156.303 154.628c-14.308 14.163-14.418 37.173-0.291 51.483 7.136 7.209 16.493 10.814 25.887 10.814 9.248 0 18.496-3.532 25.596-10.523l156.522-154.811 157.796 158.306c7.1 7.136 16.42 10.704 25.777 10.704 9.321 0 18.605-3.568 25.705-10.631 14.236-14.199 14.272-37.21 0.073-51.483l-157.578-158.087z" fill="#e6348d"></path></svg>' : '';
-    const $entry = Quick.query(`<div class="entry" id="${entry.id}">
+    const $entry = Quick.query(`<div class="entry" id="${entry.__id}">
       <a target="_blank" href="${entry.previewUrl}">${entry.originalName}</a>
       <a href="${entry.downloadUrl}" download="${entry.originalName}">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.093c-240.917 0-436.907 195.989-436.907 436.907s195.989 436.907 436.907 436.907c240.917 0 436.907-195.989 436.907-436.907 0-240.917-195.989-436.907-436.907-436.907zM719.713 523.541c-14.272-14.346-37.974-14.382-52.283-0.073l-119.021 118.22v-348.907c0-20.207-16.165-36.591-36.409-36.591-20.207 0-36.409 16.384-36.409 36.591v350.8l-119.712-121.388c-14.199-14.346-37.21-14.491-51.555-0.291-14.382 14.236-14.418 37.428-0.219 51.774l181.316 183.246c7.136 7.209 16.603 10.886 26.032 10.886 9.284 0 18.641-3.604 25.741-10.595 0.036-0.073 0.036-0.073 0.073-0.146 0.036 0 0.073 0 0.109-0.073l182.262-181.68c14.308-14.272 14.346-37.465 0.073-51.774z" fill="#0a79ce"></path></svg>
@@ -1268,9 +1268,9 @@ Quick.Attachment = class {
         Quick.success(Quick.lang.DELETE_ATTACHMENT_SUCCESS);
       }
       confirm.hide();
-      const $entry = Quick.query('#' + entry.id);
+      const $entry = Quick.query('#' + entry.__id);
       $entry.remove();
-      const index = this.attachments.findIndex(v => v.id == entry.id);
+      const index = this.attachments.findIndex(v => v.__id == entry.__id);
       this.attachments.splice(index, 1);
     });
   }
