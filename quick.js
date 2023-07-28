@@ -1495,15 +1495,15 @@ Quick.http = {
       if (contentType.includes('application/json')) {
         result = await response.json();
       } else {
-        return Quick.error(Quick.lang.UNSUPPORTED_RESPONSE_TYPE);
+        throw new Error(Quick.lang.UNSUPPORTED_RESPONSE_TYPE);
       }
 
       if (!response.ok) {
-        return Quick.error(result.message);
+        throw new Error(result.message);
       }
       return result;
     } catch (e) {
-      Quick.error(Quick.lang.NETWORK_CONNECTION_ERROR);
+      Quick.error(e.message || Quick.lang.NETWORK_CONNECTION_ERROR);
     }
   }
 }
