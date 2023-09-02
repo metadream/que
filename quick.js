@@ -409,36 +409,54 @@ button:disabled {
 // --------------------------------------------------------
 
 const LANG = {
-  en: {
-    OK: 'OK', YES: 'YES', NO: 'NO', CANCEL: 'CANCEL',
-    MON: 'MON', TUE: 'TUE', WED: 'WED', THU: 'THU', FRI: 'FRI', SAT: 'SAT', SUN: 'SUN',
-    UPLOAD_ATTACHMENT: 'UPLOAD',
-    MAX_ALLOWED_COUNT: 'The maximum number of upload files allowed is: ',
-    MAX_ALLOWED_SIZE: 'Single file size is not allowed to exceed ',
-    DELETE_ATTACHMENT_CONFIRMATION: 'Are you sure to delete the attachment?',
-    DELETE_ATTACHMENT_SUCCESS: 'Delete succeeded',
-    CLIPBOARD_NOT_SUPPORTED: 'The browser does not support clipboard',
-    COPY_SUCCESS: 'Copy succeeded',
-    COPY_FAILED: 'Copy failed',
-    INPUT_FORMAT_INCORRECT: 'The data at the cursor cannot be empty or in the wrong format',
-    UNSUPPORTED_RESPONSE_TYPE: 'Unsupported response type',
-    NETWORK_CONNECTION_ERROR: 'Network connection error'
-  },
-  zh: {
-    OK: '确定', YES: '确定', NO: '取消', CANCEL: '取消',
-    MON: '一', TUE: '二', WED: '三', THU: '四', FRI: '五', SAT: '六', SUN: '日',
-    UPLOAD_ATTACHMENT: '上传附件',
-    MAX_ALLOWED_COUNT: '单次最多允许上传文件数：',
-    MAX_ALLOWED_SIZE: '单文件大小不允许超过',
-    DELETE_ATTACHMENT_CONFIRMATION: '确定删除该附件吗？',
-    DELETE_ATTACHMENT_SUCCESS: '删除成功',
-    CLIPBOARD_NOT_SUPPORTED: '浏览器不支持剪贴板',
-    COPY_SUCCESS: '复制成功',
-    COPY_FAILED: '复制失败',
-    INPUT_FORMAT_INCORRECT: '光标处数据不能为空或输入格式有误',
-    UNSUPPORTED_RESPONSE_TYPE: '不支持的响应类型',
-    NETWORK_CONNECTION_ERROR: '网络连接异常'
-  },
+    en: {
+        OK: 'OK',
+        YES: 'YES',
+        NO: 'NO',
+        CANCEL: 'CANCEL',
+        MON: 'MON',
+        TUE: 'TUE',
+        WED: 'WED',
+        THU: 'THU',
+        FRI: 'FRI',
+        SAT: 'SAT',
+        SUN: 'SUN',
+        UPLOAD_ATTACHMENT: 'UPLOAD',
+        MAX_ALLOWED_COUNT: 'The maximum number of upload files allowed is: ',
+        MAX_ALLOWED_SIZE: 'Single file size is not allowed to exceed ',
+        DELETE_ATTACHMENT_CONFIRMATION: 'Are you sure to delete the attachment?',
+        DELETE_ATTACHMENT_SUCCESS: 'Delete succeeded',
+        CLIPBOARD_NOT_SUPPORTED: 'The browser does not support clipboard',
+        COPY_SUCCESS: 'Copy succeeded',
+        COPY_FAILED: 'Copy failed',
+        INPUT_FORMAT_INCORRECT: 'The data at the cursor cannot be empty or in the wrong format',
+        UNSUPPORTED_RESPONSE_TYPE: 'Unsupported response type',
+        NETWORK_CONNECTION_ERROR: 'Network connection error'
+    },
+    zh: {
+        OK: '确定',
+        YES: '确定',
+        NO: '取消',
+        CANCEL: '取消',
+        MON: '一',
+        TUE: '二',
+        WED: '三',
+        THU: '四',
+        FRI: '五',
+        SAT: '六',
+        SUN: '日',
+        UPLOAD_ATTACHMENT: '上传附件',
+        MAX_ALLOWED_COUNT: '单次最多允许上传文件数：',
+        MAX_ALLOWED_SIZE: '单文件大小不允许超过',
+        DELETE_ATTACHMENT_CONFIRMATION: '确定删除该附件吗？',
+        DELETE_ATTACHMENT_SUCCESS: '删除成功',
+        CLIPBOARD_NOT_SUPPORTED: '浏览器不支持剪贴板',
+        COPY_SUCCESS: '复制成功',
+        COPY_FAILED: '复制失败',
+        INPUT_FORMAT_INCORRECT: '光标处数据不能为空或输入格式有误',
+        UNSUPPORTED_RESPONSE_TYPE: '不支持的响应类型',
+        NETWORK_CONNECTION_ERROR: '网络连接异常'
+    },
 }
 
 // --------------------------------------------------------
@@ -446,28 +464,28 @@ const LANG = {
 // --------------------------------------------------------
 
 const Quick = {
-  seed: 0,
-  lang: LANG.zh,
-  i18n: lang => Quick.lang = LANG[lang] || LANG.zh,
-  uuid: ()  => 'q-u-i-c-k-' + ++Quick.seed,
-  append: e => document.body.appendChild(e),
+    seed: 0,
+    lang: LANG.zh,
+    i18n: lang => Quick.lang = LANG[lang] || LANG.zh,
+    uuid: () => 'q-u-i-c-k-' + ++Quick.seed,
+    append: e => document.body.appendChild(e),
 
-  query(selector, multi = false) {
-    // 如果不是字符串直接返回
-    if (typeof selector != 'string') return selector;
+    query(selector, multi = false) {
+        // 如果不是字符串直接返回
+        if (typeof selector != 'string') return selector;
 
-    // 如果是以 '<' 开头的字符串则创建元素
-    selector = selector.replace(/[\t\r\n]/mg, '').trim();
-    if (selector.indexOf('<') === 0) {
-      const fragment = document.createRange().createContextualFragment(selector);
-      return fragment.firstChild;
+        // 如果是以 '<' 开头的字符串则创建元素
+        selector = selector.replace(/[\t\r\n]/mg, '').trim();
+        if (selector.indexOf('<') === 0) {
+            const fragment = document.createRange().createContextualFragment(selector);
+            return fragment.firstChild;
+        }
+
+        // 返回单个或多个被选择的元素
+        return multi
+            ? document.querySelectorAll(selector)
+            : document.querySelector(selector);
     }
-
-    // 返回单个或多个被选择的元素
-    return multi ?
-      document.querySelectorAll(selector) :
-      document.querySelector(selector);
-  }
 }
 
 // --------------------------------------------------------
@@ -475,55 +493,55 @@ const Quick = {
 // --------------------------------------------------------
 
 Object.assign(Element.prototype, {
-  query(selector, multi) {
-     return multi ? this.querySelectorAll(selector) : this.querySelector(selector);
-  },
+    query(selector, multi) {
+        return multi ? this.querySelectorAll(selector) : this.querySelector(selector);
+    },
 
-  append(element) {
-    this.appendChild(element);
-    return this;
-  },
+    append(element) {
+        this.appendChild(element);
+        return this;
+    },
 
-  on(event, fn) {
-    this.addEventListener(event, fn);
-    return this;
-  },
+    on(event, fn) {
+        this.addEventListener(event, fn);
+        return this;
+    },
 
-  off(event, fn) {
-    this.removeEventListener(event, fn);
-    return this;
-  },
+    off(event, fn) {
+        this.removeEventListener(event, fn);
+        return this;
+    },
 
-  addClass(name) {
-    this.classList.add(name);
-    return this;
-  },
+    addClass(name) {
+        this.classList.add(name);
+        return this;
+    },
 
-  removeClass(name) {
-    this.classList.remove(name);
-    return this;
-  },
+    removeClass(name) {
+        this.classList.remove(name);
+        return this;
+    },
 
-  remove() {
-    return this.parentNode && this.parentNode.removeChild(this);
-  },
+    remove() {
+        return this.parentNode && this.parentNode.removeChild(this);
+    },
 
-  disable() {
-    if (this.tagName !== 'BUTTON') return;
-    if (this.disabled) return;
-    this.disabled = true;
+    disable() {
+        if (this.tagName !== 'BUTTON') return;
+        if (this.disabled) return;
+        this.disabled = true;
 
-    // Add loading to BUTTON if disabled
-    this.loader = Quick.query('<div class="quick-btn-loading"></div>');
-    this.append(this.loader);
-  },
+        // Add loading to BUTTON if disabled
+        this.loader = Quick.query('<div class="quick-btn-loading"></div>');
+        this.append(this.loader);
+    },
 
-  enable() {
-    if (this.tagName !== 'BUTTON') return;
-    if (!this.disabled) return;
-    this.disabled = false;
-    this.loader && this.loader.remove();
-  }
+    enable() {
+        if (this.tagName !== 'BUTTON') return;
+        if (!this.disabled) return;
+        this.disabled = false;
+        this.loader && this.loader.remove();
+    }
 });
 
 // --------------------------------------------------------
@@ -536,17 +554,17 @@ Object.assign(Element.prototype, {
  * Quick.loading.done()
  */
 Quick.loading = {
-  start() {
-    if (this.$instance) return;
-    this.$instance = Quick.query('<div class="quick-loading"></div>');
-    Quick.append(this.$instance);
-  },
+    start() {
+        if (this.$instance) return;
+        this.$instance = Quick.query('<div class="quick-loading"></div>');
+        Quick.append(this.$instance);
+    },
 
-  done() {
-    if (!this.$instance) return;
-    this.$instance.remove();
-    this.$instance = null;
-  }
+    done() {
+        if (!this.$instance) return;
+        this.$instance.remove();
+        this.$instance = null;
+    }
 }
 
 // --------------------------------------------------------
@@ -559,51 +577,51 @@ Quick.loading = {
  * Quick.progress.done()
  */
 Quick.progress = {
-  start(indeterminate = true) {
-    if (this.status) return;
+    start(indeterminate = true) {
+        if (this.status) return;
 
-    this.$instance = Quick.query('<div class="quick-progress"></div>');
-    Quick.append(this.$instance);
-    this._observe();
+        this.$instance = Quick.query('<div class="quick-progress"></div>');
+        Quick.append(this.$instance);
+        this._observe();
 
-    if (indeterminate) { // 不确定的结束时间
-      this.status = 1;
-      this._trickle = setInterval(() => {
-        if (this.status < 99) {
-          this.status += Math.round(((100 - this.status) / 3) * Math.random());
+        if (indeterminate) { // 不确定的结束时间
+            this.status = 1;
+            this._trickle = setInterval(() => {
+                if (this.status < 99) {
+                    this.status += Math.round(((100 - this.status) / 3) * Math.random());
+                }
+            }, 300);
         }
-      }, 300);
+    },
+
+    tick(status) {
+        this.status = parseInt(status);
+    },
+
+    done() {
+        if (!this.status) return;
+        this.status = 100;
+        clearInterval(this._trickle);
+
+        setTimeout(() => {
+            this.status = 0;
+            this.$instance.remove();
+        }, 300);
+    },
+
+    _observe() {
+        if (this._observed) return;
+        this._observed = true;
+
+        let value = this.status;
+        Object.defineProperty(this, 'status', {
+            get: () => value,
+            set: v => {
+                value = v;
+                this.$instance.style.width = v + '%';
+            }
+        });
     }
-  },
-
-  tick(status) {
-    this.status = parseInt(status);
-  },
-
-  done() {
-    if (!this.status) return;
-    this.status = 100;
-    clearInterval(this._trickle);
-
-    setTimeout(() => {
-      this.status = 0;
-      this.$instance.remove();
-    }, 300);
-  },
-
-  _observe() {
-    if (this._observed) return;
-    this._observed = true;
-
-    let value = this.status;
-    Object.defineProperty(this, 'status', {
-      get: () => value,
-      set: v => {
-        value = v;
-        this.$instance.style.width = v + '%';
-      }
-    });
-  }
 }
 
 // --------------------------------------------------------
@@ -622,39 +640,39 @@ Quick.progress = {
  * @param {String} message
  * @param {Object} options
  */
-Quick.info = function (message, options) {
-  // Check and remove current instance
-  if (Quick.$singleton) {
-    Quick.$singleton.remove();
-    Quick.$singleton = null;
-  }
+Quick.info = function(message, options) {
+    // Check and remove current instance
+    if (Quick.$singleton) {
+        Quick.$singleton.remove();
+        Quick.$singleton = null;
+    }
 
-  // Merge custom options
-  if (typeof options === 'number') {
-    options = { duration: options };
-  }
-  options = Object.assign({
-    duration: 3000,
-    background: 'rgba(0, 0, 0, 0.6)'
-  }, options);
+    // Merge custom options
+    if (typeof options === 'number') {
+        options = { duration: options };
+    }
+    options = Object.assign({
+        duration: 3000,
+        background: 'rgba(0, 0, 0, 0.6)'
+    }, options);
 
-  // Create element container
-  const $instance = Quick.query(`
+    // Create element container
+    const $instance = Quick.query(`
     <div class="quick-overlay quick-info">
       <div style="background:${options.background}">${message}</div>
     </div>
   `);
 
-  // Show instance
-  Quick.$singleton = $instance;
-  $instance.addClass('quick-fade-in');
-  Quick.append($instance);
+    // Show instance
+    Quick.$singleton = $instance;
+    $instance.addClass('quick-fade-in');
+    Quick.append($instance);
 
-  // Auto hide delay
-  setTimeout(() => {
-    $instance.addClass('quick-fade-out');
-    $instance.on('animationend', $instance.remove);
-  }, options.duration);
+    // Auto hide delay
+    setTimeout(() => {
+        $instance.addClass('quick-fade-out');
+        $instance.on('animationend', $instance.remove);
+    }, options.duration);
 }
 
 /**
@@ -663,12 +681,12 @@ Quick.info = function (message, options) {
  * @param {String} message
  * @param {Object} options
  */
-Quick.success = function (message, options = {}) {
-  if (typeof options === 'number') {
-    options = { duration: options };
-  }
-  options.background = 'rgba(43, 155, 23, 0.6)';
-  this.info(message, options);
+Quick.success = function(message, options = {}) {
+    if (typeof options === 'number') {
+        options = { duration: options };
+    }
+    options.background = 'rgba(43, 155, 23, 0.6)';
+    this.info(message, options);
 }
 
 /**
@@ -677,12 +695,12 @@ Quick.success = function (message, options = {}) {
  * @param {String} message
  * @param {Object} options
  */
-Quick.warn = function (message, options = {}) {
-  if (typeof options === 'number') {
-    options = { duration: options };
-  }
-  options.background = 'rgba(2553, 140, 0, 0.6)';
-  this.info(message, options);
+Quick.warn = function(message, options = {}) {
+    if (typeof options === 'number') {
+        options = { duration: options };
+    }
+    options.background = 'rgba(2553, 140, 0, 0.6)';
+    this.info(message, options);
 }
 
 /**
@@ -691,15 +709,15 @@ Quick.warn = function (message, options = {}) {
  * @param {String} message
  * @param {Object} options
  */
-Quick.error = function (message, options) {
-  if (!options) {
-    options = { duration: 5000 };
-  } else
+Quick.error = function(message, options) {
+    if (!options) {
+        options = { duration: 5000 };
+    } else
     if (typeof options === 'number') {
-      options = { duration: options };
+        options = { duration: options };
     }
-  options.background = 'rgba(217, 37, 7, 0.6)';
-  this.info(message, options);
+    options.background = 'rgba(217, 37, 7, 0.6)';
+    this.info(message, options);
 }
 
 // --------------------------------------------------------
@@ -725,9 +743,9 @@ Quick.error = function (message, options) {
  * @param {Object} options
  * @returns
  */
-Quick.dialog = function (options = {}) {
-  // Create element container
-  const $instance = Quick.query(`
+Quick.dialog = function(options = {}) {
+    // Create element container
+    const $instance = Quick.query(`
     <div class="quick-overlay quick-dialog">
       <div class="quick-dialog-panel">
         <div class="quick-dialog-body">${options.content}</div>
@@ -735,41 +753,41 @@ Quick.dialog = function (options = {}) {
     </div>
   `);
 
-  // Add title to instance
-  const panel = $instance.query('.quick-dialog-panel');
-  if (options.title) {
-    const title = Quick.query(`<div class="quick-dialog-header">${options.title}</div>`);
-    panel.insertBefore(title, panel.firstChild);
-  }
+    // Add title to instance
+    const panel = $instance.query('.quick-dialog-panel');
+    if (options.title) {
+        const title = Quick.query(`<div class="quick-dialog-header">${options.title}</div>`);
+        panel.insertBefore(title, panel.firstChild);
+    }
 
-  // Add custom buttons to instance
-  if (options.buttons && options.buttons.length > 0) {
-    const $footer = Quick.query(`<div class="quick-dialog-footer"></div>`);
-    panel.append($footer);
-    options.buttons.forEach(item => {
-      const button = Quick.query(`<button class="quick-dialog-button ${item.type || ""}">${item.label}</button>`);
-      $footer.append(button);
-      button.on('click', () => {
-        item.onclick ? item.onclick($instance, button) : $instance.hide()
-      })
-    })
-  }
+    // Add custom buttons to instance
+    if (options.buttons && options.buttons.length > 0) {
+        const $footer = Quick.query(`<div class="quick-dialog-footer"></div>`);
+        panel.append($footer);
+        options.buttons.forEach(item => {
+            const button = Quick.query(`<button class="quick-dialog-button ${item.type || ""}">${item.label}</button>`);
+            $footer.append(button);
+            button.on('click', () => {
+                item.onclick ? item.onclick($instance, button) : $instance.hide()
+            })
+        })
+    }
 
-  // Add hide method to instance
-  $instance.hide = () => {
-    panel.addClass('quick-scale-out');
-    $instance.addClass('quick-fade-out');
-    $instance.on('animationend', $instance.remove);
-  }
+    // Add hide method to instance
+    $instance.hide = () => {
+        panel.addClass('quick-scale-out');
+        $instance.addClass('quick-fade-out');
+        $instance.on('animationend', $instance.remove);
+    }
 
-  // Show dialog
-  options.onload && options.onload($instance);
-  Quick.append($instance);
-  if (options.animation !== false) {
-    panel.addClass('quick-scale-in');
-    $instance.addClass('quick-fade-in');
-  }
-  return $instance;
+    // Show dialog
+    options.onload && options.onload($instance);
+    Quick.append($instance);
+    if (options.animation !== false) {
+        panel.addClass('quick-scale-in');
+        $instance.addClass('quick-fade-in');
+    }
+    return $instance;
 }
 
 /**
@@ -779,17 +797,17 @@ Quick.dialog = function (options = {}) {
  * @param {Function} callback
  * @returns
  */
-Quick.alert = function (message, callback) {
-  return this.dialog({
-    content: message,
-    buttons: [{
-      type: 'primary',
-      label: Quick.lang.OK,
-      onclick: function (dialog) {
-        callback ? callback(dialog) : dialog.hide();
-      }
-    }]
-  });
+Quick.alert = function(message, callback) {
+    return this.dialog({
+        content: message,
+        buttons: [{
+            type: 'primary',
+            label: Quick.lang.OK,
+            onclick: function(dialog) {
+                callback ? callback(dialog) : dialog.hide();
+            }
+        }]
+    });
 }
 
 /**
@@ -799,19 +817,19 @@ Quick.alert = function (message, callback) {
  * @param {Function} callback
  * @returns
  */
-Quick.confirm = function (message, callback) {
-  return this.dialog({
-    content: message,
-    buttons: [{
-      label: Quick.lang.NO
-    }, {
-      type: 'primary',
-      label: Quick.lang.YES,
-      onclick: (dialog, button) => {
-        callback ? callback(dialog, button) : dialog.hide();
-      }
-    }]
-  });
+Quick.confirm = function(message, callback) {
+    return this.dialog({
+        content: message,
+        buttons: [{
+            label: Quick.lang.NO
+        }, {
+            type: 'primary',
+            label: Quick.lang.YES,
+            onclick: (dialog, button) => {
+                callback ? callback(dialog, button) : dialog.hide();
+            }
+        }]
+    });
 }
 
 // --------------------------------------------------------
@@ -830,43 +848,43 @@ Quick.confirm = function (message, callback) {
  * @param {Array} menus
  * @returns
  */
-Quick.actionSheet = function (menus = []) {
-  // Create element container
-  const $instance = Quick.query(`
+Quick.actionSheet = function(menus = []) {
+    // Create element container
+    const $instance = Quick.query(`
     <div>
       <div class="quick-overlay"></div>
       <div class="quick-actionsheet"></div>
     </div>
   `);
 
-  // Add click event to overlay
-  const $overlay = $instance.query('.quick-overlay');
-  $overlay.onclick = () => $instance.hide();
+    // Add click event to overlay
+    const $overlay = $instance.query('.quick-overlay');
+    $overlay.onclick = () => $instance.hide();
 
-  // Add custom menus to sheet
-  const $sheet = $instance.query('.quick-actionsheet');
-  menus.push({ label: Quick.lang.CANCEL });
-  menus.forEach(item => {
-    let menu = Quick.query(`<div class="quick-actionsheet-menu">${item.label}</div>`);
-    menu.on('click', e => {
-      $instance.hide();
-      item.onclick && item.onclick(e);
+    // Add custom menus to sheet
+    const $sheet = $instance.query('.quick-actionsheet');
+    menus.push({ label: Quick.lang.CANCEL });
+    menus.forEach(item => {
+        let menu = Quick.query(`<div class="quick-actionsheet-menu">${item.label}</div>`);
+        menu.on('click', e => {
+            $instance.hide();
+            item.onclick && item.onclick(e);
+        });
+        $sheet.append(menu);
     });
-    $sheet.append(menu);
-  });
 
-  // Add hide method to instance
-  $instance.hide = () => {
-    $overlay.addClass('quick-fade-out');
-    $sheet.addClass('quick-slide-down');
-    $sheet.on('animationend', () => $instance.remove());
-  }
+    // Add hide method to instance
+    $instance.hide = () => {
+        $overlay.addClass('quick-fade-out');
+        $sheet.addClass('quick-slide-down');
+        $sheet.on('animationend', () => $instance.remove());
+    }
 
-  // Show actionsheet
-  Quick.append($instance);
-  $overlay.addClass('quick-fade-in');
-  $sheet.addClass('quick-slide-up');
-  return $instance;
+    // Show actionsheet
+    Quick.append($instance);
+    $overlay.addClass('quick-fade-in');
+    $sheet.addClass('quick-slide-up');
+    return $instance;
 }
 
 // --------------------------------------------------------
@@ -882,28 +900,28 @@ Quick.actionSheet = function (menus = []) {
  * @param {Element|String} 元素或HTML字符串
  * @returns
  */
-Quick.slidingPage = function (content) {
-  const $instance = Quick.query(content);
+Quick.slidingPage = function(content) {
+    const $instance = Quick.query(content);
 
-  if (!$instance._paged) {
-    $instance._paged = true;
-    $instance.addClass('quick-overlay');
-    $instance.display = getComputedStyle($instance, null)['display'];
-    $instance.style.display = 'none';
+    if (!$instance._paged) {
+        $instance._paged = true;
+        $instance.addClass('quick-overlay');
+        $instance.display = getComputedStyle($instance, null)['display'];
+        $instance.style.display = 'none';
 
-    $instance.show = function () {
-      $instance.style.display = this.display;
-      this.removeClass('quick-slide-right');
-      this.addClass('quick-slide-left');
-      return this;
+        $instance.show = function() {
+            $instance.style.display = this.display;
+            this.removeClass('quick-slide-right');
+            this.addClass('quick-slide-left');
+            return this;
+        }
+        $instance.hide = function() {
+            this.removeClass('quick-slide-left');
+            this.addClass('quick-slide-right');
+            return this;
+        }
     }
-    $instance.hide = function () {
-      this.removeClass('quick-slide-left');
-      this.addClass('quick-slide-right');
-      return this;
-    }
-  }
-  return $instance;
+    return $instance;
 }
 
 // --------------------------------------------------------
@@ -918,43 +936,43 @@ Quick.slidingPage = function (content) {
  */
 Quick.DatePicker = class {
 
-  constructor(target) {
-    this.$target = Quick.query(target);
-    this.$target.readOnly = true;
-    this.$target.className = 'quick-datepicker-target';
+    constructor(target) {
+        this.$target = Quick.query(target);
+        this.$target.readOnly = true;
+        this.$target.className = 'quick-datepicker-target';
 
-    // 点击目标元素
-    this.$target.on('click', () => {
-      if (this.isOpen) {
-        this.close();
-      } else {
-        this.render(this.getInitDate());
-        const pos = this.$target.getBoundingClientRect();
-        this.$wrapper.style.top = pos.y + pos.height + 2 + 'px';
-        this.$wrapper.style.left = pos.x + 'px';
-      }
-    });
-  }
-
-  /** 组件UI渲染 */
-  render(date) {
-    if (!this.isOpen) {
-      this.$overlay = Quick.query('<div class="quick-overlay" style="background:none"></div>')
-      this.$overlay.on('click', e => this.close());
-      Quick.append(this.$overlay);
-
-      this.$wrapper = Quick.query('<div class="quick-datepicker-wrapper"></div>')
-      this.bindEvents();
-      Quick.append(this.$wrapper);
-      this.isOpen = true;
+        // 点击目标元素
+        this.$target.on('click', () => {
+            if (this.isOpen) {
+                this.close();
+            } else {
+                this.render(this.getInitDate());
+                const pos = this.$target.getBoundingClientRect();
+                this.$wrapper.style.top = pos.y + pos.height + 2 + 'px';
+                this.$wrapper.style.left = pos.x + 'px';
+            }
+        });
     }
-    this.createHtml(date);
-  }
 
-  /** 创建HTML */
-  createHtml(date) {
-    const data = this.calData = this.getCalendarData(date);
-    let html = `<div class="quick-datepicker-header">
+    /** 组件UI渲染 */
+    render(date) {
+        if (!this.isOpen) {
+            this.$overlay = Quick.query('<div class="quick-overlay" style="background:none"></div>')
+            this.$overlay.on('click', e => this.close());
+            Quick.append(this.$overlay);
+
+            this.$wrapper = Quick.query('<div class="quick-datepicker-wrapper"></div>')
+            this.bindEvents();
+            Quick.append(this.$wrapper);
+            this.isOpen = true;
+        }
+        this.createHtml(date);
+    }
+
+    /** 创建HTML */
+    createHtml(date) {
+        const data = this.calData = this.getCalendarData(date);
+        let html = `<div class="quick-datepicker-header">
       <svg class="quick-datepicker-btn prev-year" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.984 7l4.75 4.762-.832.817-3.924-3.924-3.99 3.99-.825-.836L7.973 7l.005.006L7.984 7zm0-4l4.75 4.762-.832.817-3.924-3.924-3.99 3.99-.825-.836L7.973 3l.005.006L7.984 3z" transform="rotate(-90 7.949 7.822)"></path></svg>
       <svg class="quick-datepicker-btn prev-month" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M7.978 11.997l-.005.006L2.3 6.33l.83-.831 4.848 4.848L12.826 5.5l.83.83-5.673 5.673-.005-.006z" transform="rotate(90 7.978 8.751)"></path></svg>
       <span class="quick-datepicker-text">${data.year}-${this.padding(data.month)}</span>
@@ -964,122 +982,122 @@ Quick.DatePicker = class {
       <thead><tr><th>${Quick.lang.MON}</th><th>${Quick.lang.TUE}</th><th>${Quick.lang.WED}</th><th>${Quick.lang.THU}</th><th>${Quick.lang.FRI}</th><th>${Quick.lang.SAT}</th><th>${Quick.lang.SUN}</th></tr></thead>
       <tbody>`;
 
-    const today = new Date();
-    const initDate = this.getInitDate();
+        const today = new Date();
+        const initDate = this.getInitDate();
 
-    for (let i = 0; i < data.days.length; i++) {
-      if (i % 7 === 0) html += '<tr>';
+        for (let i = 0; i < data.days.length; i++) {
+            if (i % 7 === 0) html += '<tr>';
 
-      const cellDay = data.days[i];
-      let clazz = '';
-      if (data.month != cellDay.month) clazz = 'minor';
-      if (data.year == initDate.getFullYear() && cellDay.month == initDate.getMonth() + 1 && cellDay.day == initDate.getDate()) clazz = 'curr';
-      if (data.year == today.getFullYear() && cellDay.month == today.getMonth() + 1 && cellDay.day == today.getDate()) clazz = 'today';
-      html += '<td><div data-index="' + cellDay.index + '" class="' + clazz + '">' + cellDay.day + '</div></td>';
+            const cellDay = data.days[i];
+            let clazz = '';
+            if (data.month != cellDay.month) clazz = 'minor';
+            if (data.year == initDate.getFullYear() && cellDay.month == initDate.getMonth() + 1 && cellDay.day == initDate.getDate()) clazz = 'curr';
+            if (data.year == today.getFullYear() && cellDay.month == today.getMonth() + 1 && cellDay.day == today.getDate()) clazz = 'today';
+            html += '<td><div data-index="' + cellDay.index + '" class="' + clazz + '">' + cellDay.day + '</div></td>';
 
-      if (i % 7 === 6) html += '</tr>';
+            if (i % 7 === 6) html += '</tr>';
+        }
+        html += '</tbody></table></div>';
+        this.$wrapper.innerHTML = html;
     }
-    html += '</tbody></table></div>';
-    this.$wrapper.innerHTML = html;
-  }
 
-  /** 绑定监听事件 */
-  bindEvents() {
-    // 点击日期选择器
-    this.$wrapper.on('click', e => {
-      const $target = e.target;
+    /** 绑定监听事件 */
+    bindEvents() {
+        // 点击日期选择器
+        this.$wrapper.on('click', e => {
+            const $target = e.target;
 
-      // 点击日历格中的日期
-      if ($target.parentNode.tagName === 'TD') {
-        const date = new Date(this.calData.year, this.calData.month - 1, $target.dataset.index);
-        this.$target.value = this.format(date);
-        this.close();
-      }
+            // 点击日历格中的日期
+            if ($target.parentNode.tagName === 'TD') {
+                const date = new Date(this.calData.year, this.calData.month - 1, $target.dataset.index);
+                this.$target.value = this.format(date);
+                this.close();
+            }
 
-      // 点击标题回到初始日期
-      const $currText = this.$wrapper.query('.quick-datepicker-text');
-      if ($currText.contains($target)) {
-        return this.render(this.getInitDate());
-      }
+            // 点击标题回到初始日期
+            const $currText = this.$wrapper.query('.quick-datepicker-text');
+            if ($currText.contains($target)) {
+                return this.render(this.getInitDate());
+            }
 
-      // 点击上下月/上下年按钮
-      const $prevYear = this.$wrapper.query('.prev-year');
-      const $prevMonth = this.$wrapper.query('.prev-month');
-      const $nextMonth = this.$wrapper.query('.next-month');
-      const $nextYear = this.$wrapper.query('.next-year');
-      const currDate = new Date($currText.innerHTML);
+            // 点击上下月/上下年按钮
+            const $prevYear = this.$wrapper.query('.prev-year');
+            const $prevMonth = this.$wrapper.query('.prev-month');
+            const $nextMonth = this.$wrapper.query('.next-month');
+            const $nextYear = this.$wrapper.query('.next-year');
+            const currDate = new Date($currText.innerHTML);
 
-      if ($prevYear.contains($target)) {
-        currDate.setFullYear(currDate.getFullYear() - 1);
-      } else if ($prevMonth.contains($target)) {
-        currDate.setMonth(currDate.getMonth() - 1);
-      } else if ($nextMonth.contains($target)) {
-        currDate.setMonth(currDate.getMonth() + 1);
-      } else if ($nextYear.contains($target)) {
-        currDate.setFullYear(currDate.getFullYear() + 1);
-      } else {
-        return;
-      }
-      this.render(currDate);
-    });
-  }
-
-  close() {
-    this.$overlay.remove();
-    this.$wrapper.remove();
-    this.isOpen = false;
-  }
-
-  /** 日期格式化 */
-  format(date) {
-    return date.getFullYear() + '-' + this.padding(date.getMonth() + 1) + '-' + this.padding(date.getDate());
-  }
-
-  /** 前缀补零 */
-  padding(n) {
-    return n <= 9 ? '0' + n : n;
-  }
-
-  /** 根据目标元素的值获取初始日期 */
-  getInitDate() {
-    return this.$target.value ? new Date(this.$target.value) : new Date();
-  }
-
-  /** 获取指定日期的日历格数据 */
-  getCalendarData(date = new Date()) {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-
-    // 当前月的第一天
-    const firstDay = new Date(year, month - 1, 1);
-    // 当前月的最后一天
-    const lastDay = new Date(year, month, 0).getDate();
-    // 当前月第一天是星期几（用于判断第一天所在列）
-    let firstWeekDay = firstDay.getDay();
-    if (firstWeekDay === 0) firstWeekDay = 7;
-    const weekdayIndex = firstWeekDay - 1;
-    // 上个月的最后一天（用于填充当前月第一天之前的日期）
-    const lastDayOfLastMonth = (new Date(year, month - 1, 0)).getDate();
-
-    const days = [];
-    for (let i = 0; i < 7 * 6; i++) {
-      const index = i + 1 - weekdayIndex;
-      let day = index;
-      let realMonth = month;
-
-      if (index <= 0) { //上一月
-        realMonth = month - 1;
-        day = lastDayOfLastMonth + index;
-      } else if (index > lastDay) { //下一月
-        realMonth = month + 1;
-        day = day - lastDay;
-      }
-      if (realMonth === 0) realMonth = 12;
-      if (realMonth > 12) realMonth = 1;
-      days.push({ month: realMonth, day, index });
+            if ($prevYear.contains($target)) {
+                currDate.setFullYear(currDate.getFullYear() - 1);
+            } else if ($prevMonth.contains($target)) {
+                currDate.setMonth(currDate.getMonth() - 1);
+            } else if ($nextMonth.contains($target)) {
+                currDate.setMonth(currDate.getMonth() + 1);
+            } else if ($nextYear.contains($target)) {
+                currDate.setFullYear(currDate.getFullYear() + 1);
+            } else {
+                return;
+            }
+            this.render(currDate);
+        });
     }
-    return { year, month, days };
-  }
+
+    close() {
+        this.$overlay.remove();
+        this.$wrapper.remove();
+        this.isOpen = false;
+    }
+
+    /** 日期格式化 */
+    format(date) {
+        return date.getFullYear() + '-' + this.padding(date.getMonth() + 1) + '-' + this.padding(date.getDate());
+    }
+
+    /** 前缀补零 */
+    padding(n) {
+        return n <= 9 ? '0' + n : n;
+    }
+
+    /** 根据目标元素的值获取初始日期 */
+    getInitDate() {
+        return this.$target.value ? new Date(this.$target.value) : new Date();
+    }
+
+    /** 获取指定日期的日历格数据 */
+    getCalendarData(date = new Date()) {
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+
+        // 当前月的第一天
+        const firstDay = new Date(year, month - 1, 1);
+        // 当前月的最后一天
+        const lastDay = new Date(year, month, 0).getDate();
+        // 当前月第一天是星期几（用于判断第一天所在列）
+        let firstWeekDay = firstDay.getDay();
+        if (firstWeekDay === 0) firstWeekDay = 7;
+        const weekdayIndex = firstWeekDay - 1;
+        // 上个月的最后一天（用于填充当前月第一天之前的日期）
+        const lastDayOfLastMonth = (new Date(year, month - 1, 0)).getDate();
+
+        const days = [];
+        for (let i = 0; i < 7 * 6; i++) {
+            const index = i + 1 - weekdayIndex;
+            let day = index;
+            let realMonth = month;
+
+            if (index <= 0) { //上一月
+                realMonth = month - 1;
+                day = lastDayOfLastMonth + index;
+            } else if (index > lastDay) { //下一月
+                realMonth = month + 1;
+                day = day - lastDay;
+            }
+            if (realMonth === 0) realMonth = 12;
+            if (realMonth > 12) realMonth = 1;
+            days.push({ month: realMonth, day, index });
+        }
+        return { year, month, days };
+    }
 }
 
 // --------------------------------------------------------
@@ -1093,88 +1111,88 @@ Quick.DatePicker = class {
  * @param startIndex 起始索引（例如可忽略表头）
  */
 Quick.FlexTable = class {
-  constructor(selector, startIndex = 0) {
-    this.$table = Quick.query(selector);
-    this.createHandlers(startIndex);
-  }
+    constructor(selector, startIndex = 0) {
+        this.$table = Quick.query(selector);
+        this.createHandlers(startIndex);
+    }
 
-  createHandlers(startIndex) {
-    const rows = Array.from(this.$table.rows);
-    rows.forEach((row, index) => {
-      // 每行增加第一列用于放置操作图标
-      const cell = row.insertCell(0);
-      cell.style.overflow = 'initial';
-      cell.style.padding = 0;;
-      cell.style.width = '50px';
-      // 行索引小于起始行不作其他处理
-      if (index < startIndex) return;
+    createHandlers(startIndex) {
+        const rows = Array.from(this.$table.rows);
+        rows.forEach((row, index) => {
+            // 每行增加第一列用于放置操作图标
+            const cell = row.insertCell(0);
+            cell.style.overflow = 'initial';
+            cell.style.padding = 0;;
+            cell.style.width = '50px';
+            // 行索引小于起始行不作其他处理
+            if (index < startIndex) return;
 
-      // 所有行均设置 +/- 按钮
-      const minusIcon = this.createMinusIcon(row);
-      minusIcon.style.visibility = 'hidden';
-      cell.append(minusIcon);
+            // 所有行均设置 +/- 按钮
+            const minusIcon = this.createMinusIcon(row);
+            minusIcon.style.visibility = 'hidden';
+            cell.append(minusIcon);
 
-      const plusIcon = this.createPlusIcon();
-      plusIcon.onclick = () => this.addRow(row);
-      cell.append(plusIcon);
+            const plusIcon = this.createPlusIcon();
+            plusIcon.onclick = () => this.addRow(row);
+            cell.append(plusIcon);
 
-      // 针对可删除行绑定事件
-      const deletable = row.getAttribute('deletable');
-      if (deletable == '' || deletable == 'true') {
+            // 针对可删除行绑定事件
+            const deletable = row.getAttribute('deletable');
+            if (deletable == '' || deletable == 'true') {
+                minusIcon.style.visibility = 'visible';
+                minusIcon.onclick = () => this.removeRow(row);
+            }
+        })
+    }
+
+    addRow(row) {
+        // 深度克隆当前行（该方法不会克隆 addEventListener 或 node.onclick 动态绑定的事件）
+        const cloneRow = row.cloneNode(true);
+
+        // 清空克隆行中不带 reserved 属性的input字段
+        const fields = cloneRow.query('input[type="text"]:not([reserved]),input[type="hidden"]:not([reserved])', true);
+        fields.forEach(field => field.value = '');
+
+        // 移除克隆行中带 removed 属性的元素
+        const elements = cloneRow.query('[removed]', true);
+        elements.forEach(el => el.remove());
+
+        // 克隆行 +/- 按钮重新绑定事件
+        const minusIcon = cloneRow.query('div:first-child');
         minusIcon.style.visibility = 'visible';
-        minusIcon.onclick = () => this.removeRow(row);
-      }
-    })
-  }
+        minusIcon.onclick = () => this.removeRow(cloneRow);
 
-  addRow(row) {
-    // 深度克隆当前行（该方法不会克隆 addEventListener 或 node.onclick 动态绑定的事件）
-    const cloneRow = row.cloneNode(true);
+        const plusIcon = cloneRow.query('div:last-child');
+        plusIcon.onclick = () => this.addRow(cloneRow);
 
-    // 清空克隆行中不带 reserved 属性的input字段
-    const fields = cloneRow.query('input[type="text"]:not([reserved]),input[type="hidden"]:not([reserved])', true);
-    fields.forEach(field => field.value = '');
+        // 在当前行之后插入克隆行
+        this.insertAfter(cloneRow, row);
+    }
 
-    // 移除克隆行中带 removed 属性的元素
-    const elements = cloneRow.query('[removed]', true);
-    elements.forEach(el => el.remove());
+    removeRow(row) {
+        this.onRowRemove ? this.onRowRemove(row) : row.remove();
+    }
 
-    // 克隆行 +/- 按钮重新绑定事件
-    const minusIcon = cloneRow.query('div:first-child');
-    minusIcon.style.visibility = 'visible';
-    minusIcon.onclick = () => this.removeRow(cloneRow);
+    createPlusIcon() {
+        return this.createIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24"><path fill="var(--primary-color)" d="M978 162c0-64-52-116-116-116H162C98 46 46 98 46 162v700c0 64 52 116 116 116h700c64 0 116-52 116-116zM768 563H563v205H461V563H256V461h205V256h102v205h205z"/></svg>');
+    }
 
-    const plusIcon = cloneRow.query('div:last-child');
-    plusIcon.onclick = () => this.addRow(cloneRow);
+    createMinusIcon() {
+        return this.createIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24"><path fill="#999" d="M978 162c0-64-52-116-116-116H162C98 46 46 98 46 162v700c0 64 52 116 116 116h700c64 0 116-52 116-116zM768 563H256V461h512z"/></svg>');
+    }
 
-    // 在当前行之后插入克隆行
-    this.insertAfter(cloneRow, row);
-  }
+    createIcon(svg) {
+        const icon = document.createElement('div');
+        icon.style.display = 'inline-flex';
+        icon.style.verticalAlign = 'middle';
+        icon.style.cursor = 'pointer';
+        icon.innerHTML = svg;
+        return icon;
+    }
 
-  removeRow(row) {
-    this.onRowRemove ? this.onRowRemove(row) : row.remove();
-  }
-
-  createPlusIcon() {
-    return this.createIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24"><path fill="var(--primary-color)" d="M978 162c0-64-52-116-116-116H162C98 46 46 98 46 162v700c0 64 52 116 116 116h700c64 0 116-52 116-116zM768 563H563v205H461V563H256V461h205V256h102v205h205z"/></svg>');
-  }
-
-  createMinusIcon() {
-    return this.createIcon('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24"><path fill="#999" d="M978 162c0-64-52-116-116-116H162C98 46 46 98 46 162v700c0 64 52 116 116 116h700c64 0 116-52 116-116zM768 563H256V461h512z"/></svg>');
-  }
-
-  createIcon(svg) {
-    const icon = document.createElement('div');
-    icon.style.display = 'inline-flex';
-    icon.style.verticalAlign = 'middle';
-    icon.style.cursor = 'pointer';
-    icon.innerHTML = svg;
-    return icon;
-  }
-
-  insertAfter(newNode, refNode) {
-    refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
-  }
+    insertAfter(newNode, refNode) {
+        refNode.parentNode.insertBefore(newNode, refNode.nextSibling);
+    }
 }
 
 // --------------------------------------------------------
@@ -1194,98 +1212,98 @@ Quick.FlexTable = class {
  */
 Quick.Attachment = class {
 
-  constructor(container, attachments, options) {
-    this.attachments = [];
-    this.options = options;
-    this.editable = !!options;
-    this.$wrapper = Quick.query(`<div class="quick-attachment"></div>`);
-    Quick.query(container).append(this.$wrapper);
+    constructor(container, attachments, options) {
+        this.attachments = [];
+        this.options = options;
+        this.editable = !!options;
+        this.$wrapper = Quick.query(`<div class="quick-attachment"></div>`);
+        Quick.query(container).append(this.$wrapper);
 
-    if (this.editable) {
-      const accept = options.accept || '*.*';
-      const multiple = options.maxCount > 1 ? 'multiple' : '';
-      this.maxSize = options.maxSize || 10;
-      this.maxCount = options.maxCount || 10;
-      this.onRemove = options.onRemove || async function () { };
+        if (this.editable) {
+            const accept = options.accept || '*.*';
+            const multiple = options.maxCount > 1 ? 'multiple' : '';
+            this.maxSize = options.maxSize || 10;
+            this.maxCount = options.maxCount || 10;
+            this.onRemove = options.onRemove || async function() {};
 
-      this.$wrapper.append(Quick.query(`<div><input type="file" accept="${accept}" ${multiple}/><a>${Quick.lang.UPLOAD_ATTACHMENT}</a></div>`));
-      this.$filer = this.$wrapper.query('input[type="file"]');
-      const $trigger = this.$wrapper.query('input[type="file"]+a');
-      $trigger.on('click', () => this.$filer.click());
-      this.$filer.on('change', e => this.validate(e.target.files));
+            this.$wrapper.append(Quick.query(`<div><input type="file" accept="${accept}" ${multiple}/><a>${Quick.lang.UPLOAD_ATTACHMENT}</a></div>`));
+            this.$filer = this.$wrapper.query('input[type="file"]');
+            const $trigger = this.$wrapper.query('input[type="file"]+a');
+            $trigger.on('click', () => this.$filer.click());
+            this.$filer.on('change', e => this.validate(e.target.files));
+        }
+
+        this.$fileList = Quick.query(`<div class="file-list"></div>`);
+        this.$wrapper.append(this.$fileList);
+        for (const entry of attachments) {
+            entry.__id = Quick.uuid();
+            this.add(entry);
+        }
     }
 
-    this.$fileList = Quick.query(`<div class="file-list"></div>`);
-    this.$wrapper.append(this.$fileList);
-    for (const entry of attachments) {
-      entry.__id = Quick.uuid();
-      this.add(entry);
+    validate(files) {
+        if (!files || files.length === 0) return;
+        if (files.length > this.maxCount) {
+            return Quick.error(`${Quick.lang.MAX_ALLOWED_COUNT} ${this.maxCount}`);
+        }
+        for (const file of files) {
+            if (file.size > this.maxSize * 1024 * 1024) {
+                return Quick.error(`${Quick.lang.MAX_ALLOWED_SIZE} ${this.maxSize}MB`);
+            }
+        }
+        for (const file of files) {
+            const tempUrl = URL.createObjectURL(file);
+            this.add({
+                __id: Quick.uuid(),
+                originalName: file.name,
+                previewUrl: tempUrl,
+                downloadUrl: tempUrl,
+                file
+            });
+        }
     }
-  }
 
-  validate(files) {
-    if (!files || files.length === 0) return;
-    if (files.length > this.maxCount) {
-      return Quick.error(`${Quick.lang.MAX_ALLOWED_COUNT} ${this.maxCount}`);
-    }
-    for (const file of files) {
-      if (file.size > this.maxSize * 1024 * 1024) {
-        return Quick.error(`${Quick.lang.MAX_ALLOWED_SIZE} ${this.maxSize}MB`);
-      }
-    }
-    for (const file of files) {
-      const tempUrl = URL.createObjectURL(file);
-      this.add({
-        __id: Quick.uuid(),
-        originalName: file.name,
-        previewUrl: tempUrl,
-        downloadUrl: tempUrl,
-        file
-      });
-    }
-  }
-
-  add(entry) {
-    const $removeIcon = this.editable ? '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon" id="remove-icon" style="margin-left:3px"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.421c-240.736 0-436.579 195.843-436.579 436.579 0 240.699 195.843 436.579 436.579 436.579 240.699 0 436.579-195.879 436.579-436.579 0-240.736-195.879-436.579-436.579-436.579zM563.264 513.566l157.433-155.721c14.308-14.127 14.418-37.173 0.291-51.483-14.127-14.308-37.21-14.418-51.483-0.291l-157.65 155.903-155.248-155.721c-14.236-14.236-37.246-14.308-51.483-0.073-14.236 14.199-14.272 37.246-0.073 51.483l155.029 155.502-156.303 154.628c-14.308 14.163-14.418 37.173-0.291 51.483 7.136 7.209 16.493 10.814 25.887 10.814 9.248 0 18.496-3.532 25.596-10.523l156.522-154.811 157.796 158.306c7.1 7.136 16.42 10.704 25.777 10.704 9.321 0 18.605-3.568 25.705-10.631 14.236-14.199 14.272-37.21 0.073-51.483l-157.578-158.087z" fill="#e6348d"></path></svg>' : '';
-    const $entry = Quick.query(`<div class="entry" id="${entry.__id}">
+    add(entry) {
+        const $removeIcon = this.editable ? '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon" id="remove-icon" style="margin-left:3px"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.421c-240.736 0-436.579 195.843-436.579 436.579 0 240.699 195.843 436.579 436.579 436.579 240.699 0 436.579-195.879 436.579-436.579 0-240.736-195.879-436.579-436.579-436.579zM563.264 513.566l157.433-155.721c14.308-14.127 14.418-37.173 0.291-51.483-14.127-14.308-37.21-14.418-51.483-0.291l-157.65 155.903-155.248-155.721c-14.236-14.236-37.246-14.308-51.483-0.073-14.236 14.199-14.272 37.246-0.073 51.483l155.029 155.502-156.303 154.628c-14.308 14.163-14.418 37.173-0.291 51.483 7.136 7.209 16.493 10.814 25.887 10.814 9.248 0 18.496-3.532 25.596-10.523l156.522-154.811 157.796 158.306c7.1 7.136 16.42 10.704 25.777 10.704 9.321 0 18.605-3.568 25.705-10.631 14.236-14.199 14.272-37.21 0.073-51.483l-157.578-158.087z" fill="#e6348d"></path></svg>' : '';
+        const $entry = Quick.query(`<div class="entry" id="${entry.__id}">
       <a target="_blank" href="${entry.previewUrl}">${entry.originalName}</a>
       <a href="${entry.downloadUrl}" download="${entry.originalName}">
       <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024" class="icon"><path d="M512 1021.725c-281.076 0-509.725-228.647-509.725-509.725s228.647-509.725 509.725-509.725 509.725 228.647 509.725 509.725-228.647 509.725-509.725 509.725zM512 75.093c-240.917 0-436.907 195.989-436.907 436.907s195.989 436.907 436.907 436.907c240.917 0 436.907-195.989 436.907-436.907 0-240.917-195.989-436.907-436.907-436.907zM719.713 523.541c-14.272-14.346-37.974-14.382-52.283-0.073l-119.021 118.22v-348.907c0-20.207-16.165-36.591-36.409-36.591-20.207 0-36.409 16.384-36.409 36.591v350.8l-119.712-121.388c-14.199-14.346-37.21-14.491-51.555-0.291-14.382 14.236-14.418 37.428-0.219 51.774l181.316 183.246c7.136 7.209 16.603 10.886 26.032 10.886 9.284 0 18.641-3.604 25.741-10.595 0.036-0.073 0.036-0.073 0.073-0.146 0.036 0 0.073 0 0.109-0.073l182.262-181.68c14.308-14.272 14.346-37.465 0.073-51.774z" fill="#0a79ce"></path></svg>
       </a>${$removeIcon}</div>`);
 
-    const $removeBtn = $entry.query('#remove-icon');
-    if ($removeBtn) $removeBtn.on('click', () => this.remove(entry));
-    this.$fileList.append($entry);
-    this.attachments.push(entry);
-  }
-
-  remove(entry) {
-    Quick.confirm(Quick.lang.DELETE_ATTACHMENT_CONFIRMATION, async (confirm, button) => {
-      if (!entry.file && this.options.onRemove) {
-        button.disable();
-        await this.options.onRemove(entry);
-        button.enable();
-        Quick.success(Quick.lang.DELETE_ATTACHMENT_SUCCESS);
-      }
-      confirm.hide();
-      const $entry = Quick.query('#' + entry.__id);
-      $entry.remove();
-      const index = this.attachments.findIndex(v => v.__id == entry.__id);
-      this.attachments.splice(index, 1);
-    });
-  }
-
-  getFiles() {
-    const files = [];
-    for (const entry of this.attachments) {
-      if (entry.file) files.push(entry.file);
+        const $removeBtn = $entry.query('#remove-icon');
+        if ($removeBtn) $removeBtn.on('click', () => this.remove(entry));
+        this.$fileList.append($entry);
+        this.attachments.push(entry);
     }
-    return files;
-  }
 
-  getAttachments() {
-    return this.attachments;
-  }
+    remove(entry) {
+        Quick.confirm(Quick.lang.DELETE_ATTACHMENT_CONFIRMATION, async (confirm, button) => {
+            if (!entry.file && this.options.onRemove) {
+                button.disable();
+                await this.options.onRemove(entry);
+                button.enable();
+                Quick.success(Quick.lang.DELETE_ATTACHMENT_SUCCESS);
+            }
+            confirm.hide();
+            const $entry = Quick.query('#' + entry.__id);
+            $entry.remove();
+            const index = this.attachments.findIndex(v => v.__id == entry.__id);
+            this.attachments.splice(index, 1);
+        });
+    }
+
+    getFiles() {
+        const files = [];
+        for (const entry of this.attachments) {
+            if (entry.file) files.push(entry.file);
+        }
+        return files;
+    }
+
+    getAttachments() {
+        return this.attachments;
+    }
 }
 
 // --------------------------------------------------------
@@ -1293,36 +1311,36 @@ Quick.Attachment = class {
 // --------------------------------------------------------
 
 Quick.util = {
-  /**
-   * 保留数值精度
-   * @param number 数值
-   * @param precision 小数点位数
-   */
-  round(number, precision) {
-    return Math.round(number + 'e' + precision) / Math.pow(10, precision);
-  },
+    /**
+     * 保留数值精度
+     * @param number 数值
+     * @param precision 小数点位数
+     */
+    round(number, precision) {
+        return Math.round(number + 'e' + precision) / Math.pow(10, precision);
+    },
 
-  /**
-   * 将对象转换为查询字符串
-   * @param params 参数对象
-   */
-  stringify(params) {
-    return Object.keys(params).map(key => key + '=' + encodeURI(params[key])).join('&');
-  },
+    /**
+     * 将对象转换为查询字符串
+     * @param params 参数对象
+     */
+    stringify(params) {
+        return Object.keys(params).map(key => key + '=' + encodeURI(params[key])).join('&');
+    },
 
-  /**
-   * 将文本内容复制到剪贴板
-   * @param text 文本内容
-   */
-  copyText(text) {
-    const clipboard = navigator.clipboard;
-    if (!clipboard) return Quick.error(Quick.lang.CLIPBOARD_NOT_SUPPORTED);
+    /**
+     * 将文本内容复制到剪贴板
+     * @param text 文本内容
+     */
+    copyText(text) {
+        const clipboard = navigator.clipboard;
+        if (!clipboard) return Quick.error(Quick.lang.CLIPBOARD_NOT_SUPPORTED);
 
-    clipboard.writeText(text).then(
-      () => Quick.success(Quick.lang.COPY_SUCCESS),
-      () => Quick.error(Quick.lang.COPY_FAILED)
-    );
-  }
+        clipboard.writeText(text).then(
+            () => Quick.success(Quick.lang.COPY_SUCCESS),
+            () => Quick.error(Quick.lang.COPY_FAILED)
+        );
+    }
 }
 
 // --------------------------------------------------------
@@ -1330,125 +1348,125 @@ Quick.util = {
 // --------------------------------------------------------
 
 Quick.form = {
-  /**
-   * 将带有name属性的元素数据解析为JSON对象
-   * @param scope 获取范围
-   */
-  getJsonObject(scope) {
-    scope = Quick.query(scope);
-    const fields = scope.query('[name]:not([name=""])', true);
-    const data = {};
+    /**
+     * 将带有name属性的元素数据解析为JSON对象
+     * @param scope 获取范围
+     */
+    getJsonObject(scope) {
+        scope = Quick.query(scope);
+        const fields = scope.query('[name]:not([name=""])', true);
+        const data = {};
 
-    for (let i = 0; i < fields.length; i++) {
-      const field = fields[i];
-      if ((field.type == 'checkbox' || field.type == 'radio') && !field.checked) continue;
+        for (let i = 0; i < fields.length; i++) {
+            const field = fields[i];
+            if ((field.type == 'checkbox' || field.type == 'radio') && !field.checked) continue;
 
-      // 去除输入值空格
-      let value = '';
-      if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
-        value = field.value = field.value.trim();
-      } else
-        if (field.tagName === 'SELECT') {
-          value = field.options[field.selectedIndex].value;
-        } else
-          if (field.isContentEditable) {
-            value = field.innerHTML = field.innerHTML.trim();
-          } else {
-            value = field.textContent = field.textContent.trim();
-          }
+            // 去除输入值空格
+            let value = '';
+            if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
+                value = field.value = field.value.trim();
+            } else
+            if (field.tagName === 'SELECT') {
+                value = field.options[field.selectedIndex].value;
+            } else
+            if (field.isContentEditable) {
+                value = field.innerHTML = field.innerHTML.trim();
+            } else {
+                value = field.textContent = field.textContent.trim();
+            }
 
-      // 数据校验
-      let required = field.getAttribute('required');
-      required = (required === null || required === 'false') ? false : true;
-      if (!this.validate(value, required, field.dataset.rule)) {
-        field.focus();
-        Quick.error(field.dataset.message || Quick.lang.INPUT_FORMAT_INCORRECT);
-        return;
-      }
+            // 数据校验
+            let required = field.getAttribute('required');
+            required = (required === null || required === 'false') ? false : true;
+            if (!this.validate(value, required, field.dataset.rule)) {
+                field.focus();
+                Quick.error(field.dataset.message || Quick.lang.INPUT_FORMAT_INCORRECT);
+                return;
+            }
 
-      // 设置返回对象的键值
-      const name = field.getAttribute('name');
-      if (data[name]) {
-        data[name] += ',' + value;
-      } else {
-        data[name] = value;
-      }
-    }
-    return data;
-  },
-
-  /**
-   * 将带name属性的一组元素解析为JSON数组
-   * @param scopes 数组内每组对象的获取范围
-   */
-  getJsonArray(scopes) {
-    const array = [];
-    scopes = Quick.query(scopes, true);
-
-    for (let i = 0; i < scopes.length; i++) {
-      const obj = this.getJsonObject(scopes[i]);
-      if (!obj) return; // !important
-      if (Object.keys(obj).length !== 0) {
-        array.push(obj);
-      }
-    }
-    return array;
-  },
-
-  /**
-   * 数据校验
-   * @param value 数据值
-   * @param required 是否必填
-   * @param rule 数据规则
-   */
-  validate(value, required, rule) {
-    if (required && !value) return false; // 必填但空值，校验失败
-    if (!rule) return true; // 无规则，视为成功
-    if (!value) return true; // 空值无需校验，视为成功
-
-    const matches = rule.match(/^(?<type>[a-z0-9]+)(\((?<min>\-?\d+)(,\s*(?<max>\-?\d+))?\))?$/);
-    if (!matches) return true; // 有规则但格式不匹配，视为成功（相当于无规则）
-
-    const groups = matches.groups;
-    const fn = this.validator[groups.type];
-    if (!fn) return true; // 有规则但找不到预设的校验方法，视为成功（相当于无规则）
-
-    return fn(value, groups.min, groups.max); // 由预设的校验方法判断
-  },
-
-  /**
-   * 常用类型验证器
-   */
-  validator: {
-    // 字符串格式
-    varchar: function (value, min, max) {
-      if (!max) { max = min, min = 0; }
-      const pattern = new RegExp('^.{' + min + ',' + max + '}$');
-      return pattern.test(value);
+            // 设置返回对象的键值
+            const name = field.getAttribute('name');
+            if (data[name]) {
+                data[name] += ',' + value;
+            } else {
+                data[name] = value;
+            }
+        }
+        return data;
     },
 
-    // 整数格式：m为整数位，允许负数
-    integer: function (value, m) {
-      const pattern = new RegExp('^\\-?\\d{0,' + m + '}$');
-      return pattern.test(value);
+    /**
+     * 将带name属性的一组元素解析为JSON数组
+     * @param scopes 数组内每组对象的获取范围
+     */
+    getJsonArray(scopes) {
+        const array = [];
+        scopes = Quick.query(scopes, true);
+
+        for (let i = 0; i < scopes.length; i++) {
+            const obj = this.getJsonObject(scopes[i]);
+            if (!obj) return; // !important
+            if (Object.keys(obj).length !== 0) {
+                array.push(obj);
+            }
+        }
+        return array;
     },
 
-    // 数字格式：m为整数位，d为小数位，允许负数
-    decimal: function (value, m, d) {
-      const pattern = new RegExp('^\\-?\\d{0,' + m + '}(\\.\\d{0,' + d + '})?$');
-      return pattern.test(value);
+    /**
+     * 数据校验
+     * @param value 数据值
+     * @param required 是否必填
+     * @param rule 数据规则
+     */
+    validate(value, required, rule) {
+        if (required && !value) return false; // 必填但空值，校验失败
+        if (!rule) return true; // 无规则，视为成功
+        if (!value) return true; // 空值无需校验，视为成功
+
+        const matches = rule.match(/^(?<type>[a-z0-9]+)(\((?<min>\-?\d+)(,\s*(?<max>\-?\d+))?\))?$/);
+        if (!matches) return true; // 有规则但格式不匹配，视为成功（相当于无规则）
+
+        const groups = matches.groups;
+        const fn = this.validator[groups.type];
+        if (!fn) return true; // 有规则但找不到预设的校验方法，视为成功（相当于无规则）
+
+        return fn(value, groups.min, groups.max); // 由预设的校验方法判断
     },
 
-    // 日期格式：yyyy-MM-dd
-    date: function (value) {
-      const m = value.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
-      if (m) {
-        const d = new Date(m[1], m[2] - 1, m[3]);
-        return d.getFullYear() == m[1] && d.getMonth() == m[2] - 1 && d.getDate() == m[3];
-      }
-      return false;
+    /**
+     * 常用类型验证器
+     */
+    validator: {
+        // 字符串格式
+        varchar: function(value, min, max) {
+            if (!max) { max = min, min = 0; }
+            const pattern = new RegExp('^.{' + min + ',' + max + '}$');
+            return pattern.test(value);
+        },
+
+        // 整数格式：m为整数位，允许负数
+        integer: function(value, m) {
+            const pattern = new RegExp('^\\-?\\d{0,' + m + '}$');
+            return pattern.test(value);
+        },
+
+        // 数字格式：m为整数位，d为小数位，允许负数
+        decimal: function(value, m, d) {
+            const pattern = new RegExp('^\\-?\\d{0,' + m + '}(\\.\\d{0,' + d + '})?$');
+            return pattern.test(value);
+        },
+
+        // 日期格式：yyyy-MM-dd
+        date: function(value) {
+            const m = value.match(/^(\d{4})\-(\d{2})\-(\d{2})$/);
+            if (m) {
+                const d = new Date(m[1], m[2] - 1, m[3]);
+                return d.getFullYear() == m[1] && d.getMonth() == m[2] - 1 && d.getDate() == m[3];
+            }
+            return false;
+        }
     }
-  }
 }
 
 // --------------------------------------------------------
@@ -1457,53 +1475,53 @@ Quick.form = {
 // --------------------------------------------------------
 
 Quick.http = {
-  get(url) {
-    return this.request('GET', url);
-  },
+    get(url) {
+        return this.request('GET', url);
+    },
 
-  post(url, data) {
-    return this.request('POST', url, data);
-  },
+    post(url, data) {
+        return this.request('POST', url, data);
+    },
 
-  put(url, data) {
-    return this.request('PUT', url, data);
-  },
+    put(url, data) {
+        return this.request('PUT', url, data);
+    },
 
-  patch(url, data) {
-    return this.request('PATCH', url, data);
-  },
+    patch(url, data) {
+        return this.request('PATCH', url, data);
+    },
 
-  delete(url, data) {
-    return this.request('DELETE', url, data);
-  },
+    delete(url, data) {
+        return this.request('DELETE', url, data);
+    },
 
-  async request(method, url, data) {
-    const options = { method, headers: {}, body: data };
+    async request(method, url, data) {
+        const options = { method, headers: {}, body: data };
 
-    if (Object.prototype.toString.call(data) != '[object FormData]') {
-      options.headers['content-type'] = 'application/json; charset=utf-8';
-      options.body = JSON.stringify(data);
+        if (Object.prototype.toString.call(data) != '[object FormData]') {
+            options.headers['content-type'] = 'application/json; charset=utf-8';
+            options.body = JSON.stringify(data);
+        }
+        try {
+            const response = await fetch(url, options);
+            const contentType = response.headers.get('content-type');
+            let result = null;
+
+            if (!contentType || contentType.includes('text/plain')) {
+                result = await response.text();
+            } else
+            if (contentType.includes('application/json')) {
+                result = await response.json();
+            } else {
+                throw new Error(Quick.lang.UNSUPPORTED_RESPONSE_TYPE);
+            }
+
+            if (!response.ok) {
+                throw new Error(result.message);
+            }
+            return result;
+        } catch (e) {
+            Quick.error(e.message || Quick.lang.NETWORK_CONNECTION_ERROR);
+        }
     }
-    try {
-      const response = await fetch(url, options);
-      const contentType = response.headers.get('content-type');
-      let result = null;
-
-      if (!contentType || contentType.includes('text/plain')) {
-        result = await response.text();
-      } else
-      if (contentType.includes('application/json')) {
-        result = await response.json();
-      } else {
-        throw new Error(Quick.lang.UNSUPPORTED_RESPONSE_TYPE);
-      }
-
-      if (!response.ok) {
-        throw new Error(result.message);
-      }
-      return result;
-    } catch (e) {
-      Quick.error(e.message || Quick.lang.NETWORK_CONNECTION_ERROR);
-    }
-  }
 }
