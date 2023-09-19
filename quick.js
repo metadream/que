@@ -8,25 +8,6 @@ document.head.insertAdjacentHTML('beforeend', `<style>
   -webkit-user-select: none;
   user-select: none;
 }
-button {
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: opacity .3s;
-}
-button:hover {
-  opacity: .8;
-}
-button:active {
-  opacity: 1;
-}
-button:disabled {
-  opacity: .5 !important;
-  cursor: default;
-}
 .quick-btn-loading {
   position: absolute;
   width: 100%;
