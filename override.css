@@ -1,0 +1,196 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+::placeholder {
+  color: #999;
+}
+
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+html {
+  font-size: var(--fontSize, 15px);
+}
+
+body {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--fontColor, #333);
+  font-family: var(--fontFamily, system-ui, -apple-system, BlinkMacSystemFont, Helvetica, Arial, Tahoma, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", sans-serif);
+}
+
+a, button, label, select {
+  cursor: pointer;
+  font: inherit;
+  outline: 0;
+}
+
+input, select {
+  font: inherit;
+  background-color: transparent;
+  outline: 0;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  transition: opacity .3s;
+  color: var(--fontColor, #333);
+  background: var(--mainColor, #16c);
+  border-radius: var(--borderRadius, 5px);
+  border: 0;
+  height: 40px;
+  padding: 10px 30px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}
+
+button:hover {
+  opacity: .8;
+}
+
+button:active {
+  opacity: 1;
+}
+
+button:disabled {
+  opacity: .5 !important;
+  cursor: default;
+}
+
+.quick-field {
+  display: flex;
+  align-items: center;
+  border-radius: var(--borderRadius, 5px);
+  border: #ccc 1px solid;
+  height: 40px;
+  padding: 0 5px;
+  margin: 5px;
+  color: #666;
+  transition: .3s;
+}
+
+.quick-field:focus-within {
+  border-color: var(--mainColor, #16c);
+  color: var(--fontColor, #333);
+  box-shadow: 0 0 5px 0 rgb(0 0 0 / 15%);
+}
+
+.quick-field:focus-within > label:after {
+  background-color: var(--mainColor, #16c);
+}
+
+.quick-field > label {
+  position: relative;
+  cursor: default;
+  white-space: nowrap;
+  width: 80px;
+  margin: 0 20px;
+}
+
+.quick-field > label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  right: -10px;
+  width: 1px;
+  background-color: #ccc;
+  transition: .3s;
+}
+
+.quick-field.required > label:after {
+  background-color: red;
+}
+
+.quick-field > input, .quick-field > select {
+  flex: 1;
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.quick-field > input[disabled] {
+  color: #999;
+  pointer-events: none;
+}
+
+.quick-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 28px;
+}
+
+.quick-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.quick-switch i {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ccc;
+  border-radius: 28px;
+  transition: .4s;
+}
+
+.quick-switch i:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: .4s;
+}
+
+.quick-switch input:checked + i {
+  background: var(--mainColor, #16c);
+}
+
+.quick-switch input:checked + i:before {
+  transform: translateX(16px);
+}
