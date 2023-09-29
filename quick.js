@@ -507,6 +507,11 @@ Object.assign(Element.prototype, {
         return this.parentNode && this.parentNode.removeChild(this);
     },
 
+    swap(el) {
+        if (el) el.insertAdjacentElement('beforeBegin', this);
+        return this;
+    },
+
     disable() {
         if (this.tagName !== 'BUTTON') return;
         if (this.disabled) return;
