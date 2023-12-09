@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Poppins';
-  src: local('Poppins Light'), local('Poppins-Light'), url(//cdn.unpkg.net/frontend/font/poppins-light.woff2) format('woff2');
+  src: local('Poppins Light'), local('Poppins-Light'), url(//cdn.unpkg.net/assets/font/poppins-light.woff2) format('woff2');
 }
 
 body {
@@ -45,7 +45,7 @@ section.content .markdown-section {
   font-weight: initial;
 }
 
-.markdown-section pre>code {
+.markdown-section pre > code {
   padding: 1.5em 5px;
   font-size: 0.9em;
 }

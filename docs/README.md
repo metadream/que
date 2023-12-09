@@ -61,7 +61,7 @@ Que.js 支持七种常用指令，除 Text 和 Attribute 以外，其他指令�
 ## 三. 它是如何运行的
 
 物以类聚，整个 que.js 包含七个独立的类，完全可以分别形成文件。类之间的运行关系如下：
-![UML](https://cdn.unpkg.net/frontend/docs/assets/uml.png)
+![UML](https://cdn.unpkg.net/que/docs/assets/uml.png)
 
 ## 四. 兼容性怎么样
 
@@ -71,7 +71,7 @@ Que.js 支持七种常用指令，除 Text 和 Attribute 以外，其他指令�
 
 ### 1. 引入框架
 ```html
-<script src="//cdn.unpkg.net/frontend/que.min.js"></script>
+<script src="//cdn.unpkg.net/que/que.min.js"></script>
 ```
 
 ### 2. 编写 HTML
