@@ -19,7 +19,7 @@ class Que {
 
     // Proxy, observe, compile and execute 'ready' method in options
     constructor(options = {}) {
-        const proxy = this.# proxy(options);
+        const proxy = this.#proxy(options);
         new Observer(options.data);
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -32,7 +32,7 @@ class Que {
     }
 
     // Proxy all methods of 'options' to 'options.data'
-    # proxy(options) {
+    #proxy(options) {
         Object.keys(options).forEach(key => {
             if (typeof options[key] === 'function') {
                 options.data[key] = options[key];
