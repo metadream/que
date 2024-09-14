@@ -3,7 +3,7 @@
  * A Simple Javascript MVVM Framework (in ES6)
  * @version: 2.2.1
  * @author: Ai Chen
- * @copyright (c) 2019-2023 ArrayWork
+ * @copyright (c) 2019-2023 https://github.com/metadream
  * @references: https://github.com/vuejs/vue
  *              https://github.com/qieguo2016/Vueuv
  *              https://es6.ruanyifeng.com
@@ -19,7 +19,7 @@ class Que {
 
     // Proxy, observe, compile and execute 'ready' method in options
     constructor(options = {}) {
-        const proxy = this.#proxy(options);
+        const proxy = this.# proxy(options);
         new Observer(options.data);
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -32,7 +32,7 @@ class Que {
     }
 
     // Proxy all methods of 'options' to 'options.data'
-    #proxy(options) {
+    # proxy(options) {
         Object.keys(options).forEach(key => {
             if (typeof options[key] === 'function') {
                 options.data[key] = options[key];
