@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Poppins';
-  src: local('Poppins Light'), local('Poppins-Light'), url(//cdn.arraywork.com/font/poppins-light.woff2) format('woff2');
+  src: local('Poppins Light'), local('Poppins-Light'), url(//cdn.unpkg.net/assets/font/poppins-light.woff2) format('woff2');
 }
 
 body {
