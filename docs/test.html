@@ -1,0 +1,56 @@
+<html>
+<head></head>
+<body>
+
+<main layout:fragment="app">
+  <video id="video" width="300" height="200"></video>
+  <canvas id="canvas" style="display:none;"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <button onclick="openCamera()">打开摄像头</button>
+</main>
+
+</body>
+</html>
+
+<script>
+  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas');
+  const context = canvas.getContext('2d');
+
+  function openCamera() {
+    // 检查浏览器支持
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('您的浏览器不支持 getUserMedia');
+    } else {
+      // 请求摄像头权限
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(stream => {
+          video.srcObject = stream;
+          video.onloadedmetadata = () => {
+            video.play();
+            requestAnimationFrame(tick);
+          };
+        })
+        .catch(err => {
+          alert('无法访问摄像头:', err);
+        });
+    }
+  }
+
+  // 扫描二维码
+  function tick() {
+    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (code) {
+        alert('扫描结果:', code.data);
+      } else {
+        alert('未检测到二维码');
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+</script>
